@@ -29,7 +29,9 @@ func CadastraCliente(w http.ResponseWriter, r *http.Request){
 }
 
 func LoginCliente(w http.ResponseWriter, r *http.Request){
-	return 
+	if r.Method == "GET" {
+		
+	}
 }
 
 func RestauraSenha(w http.ResponseWriter, r *http.Request){

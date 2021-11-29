@@ -1,5 +1,6 @@
 package entity
 
+
 type Cliente struct {
 	Id              int 	`json:"id"`
 	Nome            string	`json:"nome"`
@@ -8,35 +9,35 @@ type Cliente struct {
 	RG              string	`json:"rg`
 	CPF             string	`json:"cpf"`
 	CNH             string	`json:"cnh"`
-	//Contato         Contato 
-	/*Endereco        Endereco
-	Login			Login*/
+	//Contato         Contato `json:"contato"`
+	/*Endereco        Endereco `json:"endereco"`
+	Login			Login	   `json:"login"`*/
 }
 type Login struct {
-	Email	string
-	Senha	string
-	Token	string
+	Email	string	`json:"email`
+	Senha	string	`json:"senha"`
+	token	string
 }
 type Endereco struct {
-	Estado      Estado
-	Cidade      string
-	Bairro      string
-	Logradouro  string
-	Rua         string
-	Numero      string
-	Complemento string
+	Estado      Estado	`json:"estado"`
+	Cidade      string	`json:"cidade"`
+	Bairro      string	`json:"bairro"`
+	Logradouro  string	`json:"logradouro"`
+	Rua         string	`json:"rua"`
+	Numero      string	`json:"numero"`
+	Complemento string	`json:"complemento"`
 }
 
 type Estado struct {
-	ID   int
-	Nome string
-	Pais string //BRASIL
+	ID   int	
+	Nome string	`json:"nome"`
+	Pais string `json:"pais"`//BRASIL
 }
 
 type Contato struct {
-	Celular  string
-	Telefone string
-	Email    string
+	Celular  string `json:"celular"`
+	Telefone string	`json:"telefone"`
+	Email    string	`json:"email"`
 }
 
 
@@ -49,4 +50,15 @@ type Contato struct {
 	CPF: "456891621651",
 	CNH: "15181516516",
 	Contato: "11 97261451",
-}*/
+}
+
+
+{
+    "id": 1,
+	"nome": "Leandro",
+	"sobrenome": "Alcantara",
+	"data_nascimento": "24/12/1991",
+	"rg": "4462546215",
+	"cpf": "456891621651",
+	"cnh": "15181516516"
+   }*/
