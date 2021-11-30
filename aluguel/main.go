@@ -6,25 +6,26 @@ import (
 	"net/http"
 
 	"github.com/LeandroAlcantara-1997/controller"
+	"github.com/gorilla/mux"
 )
 
 func main() {
 
-	//r := router.PathPrefix("/api").Subrouter()
+	route := mux.NewRouter()
 
-	http.HandleFunc("/aluguel", controller.GetAluguel)
+	route.HandleFunc("/aluguel", controller.GetAluguel).Methods("GET")
 	
 	//Cliente
-	http.HandleFunc("/cadastroCliente", controller.CadastraCliente)
+	route.HandleFunc("/cadastroCliente", controller.CadastraCliente).Methods("POST")
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	route.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Bem vindo")
 	})
 
-	fmt.Println("Serivdor rodando")
-	err := http.ListenAndServe(":8080", nil)
+	fmt.Println("Serivdor rodando porta 8080")
+	err := http.ListenAndServe(":8080", route)
 	if err != nil {
-		log.Fatal("Erro ao rodar servidor", err)
+		log.Fatal("Erro ao rodar servidor ", err)
 	}
 
 }

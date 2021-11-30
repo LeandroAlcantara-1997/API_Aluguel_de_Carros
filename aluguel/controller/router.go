@@ -11,27 +11,29 @@ import (
 )
 
 func CadastraCliente(w http.ResponseWriter, r *http.Request){
-	if r.Method == "POST"{
-		w.WriteHeader(http.StatusCreated)
-		body, err := ioutil.ReadAll(r.Body) 
-		if err != nil {
-			log.Fatal("Erro ao cadastrar Cliente ", err)
-		}
-		var novocadastro entity.Cliente
-		err = json.Unmarshal(body, &novocadastro)
-		if err != nil {
-			log.Fatal("Erro ao cadastrar cliente", err)
-			w.WriteHeader(http.StatusBadRequest)
-		}
-		w.WriteHeader(http.StatusCreated)
-		fmt.Println("Struct: ", novocadastro)
-	} 
+	body, err := ioutil.ReadAll(r.Body) 
+	if err != nil {
+		log.Fatal("Erro ao cadastrar Cliente ", err)
+	}
+	var novocadastro entity.Cliente
+	err = json.Unmarshal(body, &novocadastro)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, "Erro ao converter json para cliente: ", err)
+		return
+	}
+	err = novocadastro.ValidaCliente()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, "Erro ao cadastrar cliente: ", err)
+		return
+	}
+	w.WriteHeader(http.StatusCreated)
+	fmt.Fprint(w, "Cadastrado realidado com sucesso!")
 }
 
 func LoginCliente(w http.ResponseWriter, r *http.Request){
-	if r.Method == "GET" {
-		
-	}
+	return 
 }
 
 func RestauraSenha(w http.ResponseWriter, r *http.Request){
