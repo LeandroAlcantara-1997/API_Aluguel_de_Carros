@@ -9,6 +9,10 @@
 
 ## Executando build com CompileDaemon
 
+~~~Linux
 $HOME/go/bin/CompileDaemon -command="./LeandroAlcantara-1997"
+~~~
 
+~~~Windows
 C:\Users\leand\go\bin\CompileDaemon -command="./LeandroAlcantara-1997"
+~~~
