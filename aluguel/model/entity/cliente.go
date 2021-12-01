@@ -16,28 +16,13 @@ type Cliente struct {
 	CPF             string  `json:"cpf"`
 	CNH             string  `json:"cnh"`
 	Contato         Contato `json:"contato"`
-	//Endereco        Endereco `json:"endereco"`
+	Endereco        Endereco `json:"endereco"`
 	Login Login `json:"login"`
 }
 type Login struct {
 	email string
 	Senha string `json:"senha"`
 	token string
-}
-type Endereco struct {
-	Estado      Estado `json:"estado"`
-	Cidade      string `json:"cidade"`
-	Bairro      string `json:"bairro"`
-	Logradouro  string `json:"logradouro"`
-	Rua         string `json:"rua"`
-	Numero      string `json:"numero"`
-	Complemento string `json:"complemento"`
-}
-
-type Estado struct {
-	Id   int
-	Nome string `json:"nome"`
-	Pais string `json:"pais"` //BRASIL
 }
 
 type Contato struct {
@@ -61,7 +46,7 @@ func (c *Cliente) ValidaCliente() error {
 	} else if c.Login.Senha == "" {
 		return fmt.Errorf("A senha não pode estar vazia")
 	}
-	c.Contato.Id = c.Id
+	c.Endereco.Estado.Id = c.Id
 	err := c.Contato.ValidaContato()
 	if err != nil {
 		return fmt.Errorf(" %v", err)
@@ -74,6 +59,7 @@ func (c *Cliente) ValidaCliente() error {
 		return fmt.Errorf("Erro ao cadastrar token")
 	}
 	c.Login.token = string(passbyte)
+	fmt.Println(c.Login.token)
 
 	return nil
 }
@@ -89,17 +75,7 @@ func (c *Contato) ValidaContato() error {
 	return nil
 }
 
-func (e *Estado) ValidaEstado() error {
-	switch e.Id {
-	case 12, 27, 16, 13, 29, 23, 53, 32, 52, 21, 51, 50, 31, 15, 25, 41, 26, 22, 24, 43, 33, 11, 14, 42, 35, 28, 17:
-		break
-	}
-	switch e.Nome {
-	case "acre", "alagoas", "amapa", "amazonas", "bahia", "ceara", "distrito federal", "espirito santo", "goias", "maranhao", "mato grosso", "mato grosso do sul", "minas gerais", "para", "paraiba", "pernambuco", "piaui", "rio grande do norte", "rio grande do sul", "rio de janeiro", "rondonia", "roraima", "santa catarina", "sao paulo", "sergipe", "tocantis":
-		break
-	}
-	return nil
-}
+
 func validaText(text string) bool{
 	for _, value := range text{
 		if unicode.IsDigit(value) {
@@ -130,6 +106,18 @@ func validaNumber(number string) bool {
 		"celular": "5151515",
 		"telefone": "518162480",
 		"email": "21484848"
+	},
+	"endereco": {
+		"estado": {
+			"nome": "são paulo",
+			"pais": "Brasil"
+		},
+		"cidade": "Taboão da Serra",
+		"bairro": "Jd.Elisabete",
+		"logradouro": "rua",
+		"rua": "Almeida filho",
+		"numero": "52",
+		"complemento": "casa 06"
 	},
 	"login": {
 		"senha": "123456"

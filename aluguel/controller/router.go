@@ -28,6 +28,19 @@ func CadastraCliente(w http.ResponseWriter, r *http.Request){
 		fmt.Fprint(w, "Erro ao cadastrar cliente: ", err)
 		return
 	}
+	err = novocadastro.Contato.ValidaContato()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, "Dados de contato inválidos: ", err)
+		return 
+	}
+
+	err = novocadastro.Endereco.Estado.ValidaEstado()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, "Dados de endereço inválidos: ", err)
+		return 
+	}
 	w.WriteHeader(http.StatusCreated)
 	fmt.Fprint(w, "Cadastrado realidado com sucesso!")
 }
@@ -58,16 +71,13 @@ func GetCarrosCadastrados(w http.ResponseWriter, r *http.Request){
 
 
 func GetAluguel(w http.ResponseWriter, r *http.Request){
-	if r.Method == "GET" {
-		c := entity.Veiculo {
-			Id: 1,
-			Modelo: "Corsa",
-		}
-		encoder := json.NewEncoder(w)
-		encoder.Encode(c)
-	} else {
-		return 
+	c := entity.Veiculo {
+		Id: 1,
+		Modelo: "Corsa",
 	}
+	encoder := json.NewEncoder(w)
+	encoder.Encode(c)
+	return 
 }
 
 
