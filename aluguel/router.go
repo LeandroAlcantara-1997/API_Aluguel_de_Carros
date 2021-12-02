@@ -23,7 +23,7 @@ func main() {
 	route.HandleFunc("/carrosCadastrados", controller.GetCarrosCadastrados).Methods("GET")
 
 	//Admin
-	route.HandleFunc("/getIdCliente" , controller.GetByIdCliente).Methods("GET")
+	route.HandleFunc("/getIdCliente/{id}" , controller.GetByIdCliente).Methods("GET")
 
 	route.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Bem vindo")

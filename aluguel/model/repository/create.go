@@ -53,7 +53,6 @@ func CreateTable(db *sql.DB) error {
 	if err != nil {
 		log.Fatalf("Erro ao criar tabela login %v", err)
 	}
-	fmt.Println(result)
 
 	result, err = db.Exec("CREATE TABLE IF NOT EXISTS contato(" + "id INT AUTO_INCREMENT PRIMARY KEY, " +
 		"celular VARCHAR(11), " +
@@ -62,7 +61,6 @@ func CreateTable(db *sql.DB) error {
 		"fk_cliente INT, " +
 		"FOREIGN KEY (fk_cliente) REFERENCES cliente(id)" +
 		")")
-	fmt.Println(result)
 	if err != nil {
 		log.Fatalf("Erro ao criar tabela contato %v ", err)
 	}
@@ -82,7 +80,6 @@ func CreateTable(db *sql.DB) error {
 	if err != nil {
 		log.Fatalf("Erro ao criar tabela endereco %v", err)
 	}
-	fmt.Println(result)
 
 	result, err = db.Exec("CREATE TABLE IF NOT EXISTS estado(" +
 		"id INT AUTO_INCREMENT PRIMARY KEY, " +
@@ -92,7 +89,6 @@ func CreateTable(db *sql.DB) error {
 	if err != nil {
 		log.Fatalf("Erro ao criar tabela estado %v", err)
 	}
-	fmt.Println(result)
 
 	result, err = db.Exec("CREATE TABLE IF NOT EXISTS login(" +
 		"id INT AUTO_INCREMENT PRIMARY KEY, " +
@@ -105,6 +101,5 @@ func CreateTable(db *sql.DB) error {
 	if err != nil {
 		log.Fatalf("Erro ao criar tabela login %v", err)
 	}
-	fmt.Println(result)
 	return nil
 }

@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -12,20 +13,22 @@ import (
 
 func GetByIdCliente(w http.ResponseWriter, r *http.Request){
 	value := mux.Vars(r) 
+	fmt.Println(value)
 	id, err := strconv.Atoi(value["id"])
 	if err != nil {
 		w.WriteHeader(http.StatusBadGateway)
 		fmt.Fprint(w ,"Erro ao converter parametro id para int", err)
 		return 
 	}
-	row, err := repository.GetByIdCliente(id)
+	cliente, err := repository.GetByIdCliente(id)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, "Erro ao retornar cadastro", err)
 		return 
 	}
 	w.WriteHeader(http.StatusFound)
-	fmt.Fprint(w, row)
+	encoder := json.NewEncoder(w)
+	encoder.Encode(cliente)
 	return
 }
 

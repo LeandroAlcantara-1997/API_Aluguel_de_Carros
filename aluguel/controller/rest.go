@@ -43,14 +43,14 @@ func CadastraCliente(w http.ResponseWriter, r *http.Request){
 		return 
 	}
 
-	result, err := repository.InsertCliente(&novocadastro)
+	err = repository.InsertCliente(&novocadastro)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, "Erro ao inserir cadastro cliente %v", err)
+		fmt.Fprint(w, "Erro ao inserir cadastro cliente ", err)
 		return 
 	}
 	w.WriteHeader(http.StatusCreated)
-	fmt.Fprint(w, result, "Cadastrado realidado com sucesso!")
+	fmt.Fprint(w,"Cadastrado realidado com sucesso!")
 	return 
 }
 
