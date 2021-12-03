@@ -83,7 +83,7 @@ func CreateTable(db *sql.DB) error {
 
 	result, err = db.Exec("CREATE TABLE IF NOT EXISTS estado(" +
 		"id INT AUTO_INCREMENT PRIMARY KEY, " +
-		"nome VARCHAR(25), " +
+		"nome VARCHAR(25) UNIQUE, " +
 		"pais	VARCHAR(15) DEFAULT 'Brasil'" +
 		")")
 	if err != nil {

@@ -36,13 +36,6 @@ func CadastraCliente(w http.ResponseWriter, r *http.Request){
 		return 
 	}
 
-	err = novocadastro.Endereco.Estado.ValidaEstado()
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, "Dados de endereço inválidos: ", err)
-		return 
-	}
-
 	err = repository.InsertCliente(&novocadastro)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)

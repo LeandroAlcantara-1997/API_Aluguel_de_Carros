@@ -57,7 +57,6 @@ func (c *Cliente) ValidaCliente() error {
 		return fmt.Errorf("%v ", err)
 	}
 	c.Data_Nascimento = data
-	c.Endereco.Estado.Id = c.Id
 	err = c.Contato.ValidaContato()
 	if err != nil {
 		return fmt.Errorf(" %v", err)
