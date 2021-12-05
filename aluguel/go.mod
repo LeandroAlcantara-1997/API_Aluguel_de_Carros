@@ -13,4 +13,6 @@ require (
 	github.com/radovskyb/watcher v1.0.7 // indirect
 	golang.org/x/crypto v0.0.0-20211117183948-ae814b36b871 // indirect
 	golang.org/x/sys v0.0.0-20210615035016-665e8c7367d1 // indirect
+	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
+	gopkg.in/mail.v2 v2.3.1 // indirect
 )
