@@ -48,9 +48,33 @@ func CadastraCliente(w http.ResponseWriter, r *http.Request){
 }
 
 func LoginCliente(w http.ResponseWriter, r *http.Request){
+	
+
+
 	return 
 }
 
+func LoginAdmin(w http.ResponseWriter, r *http.Request){
+	var admin entity.Admin
+	admin.User = r.FormValue("user")
+	admin.Senha = r.FormValue("senha")
+	err := admin.ValidaAdmin()
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		fmt.Fprint(w, "Erro ao validar admin", err)
+		return
+	}
+
+	err = repository.InsertAdmin(&admin)
+	if err != nil {
+		fmt.Fprint(w, "Erro ao inserir admin: ",  err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	w.WriteHeader(http.StatusAccepted)
+	//http.Redirect()
+	return 
+}
 func RestauraSenha(w http.ResponseWriter, r *http.Request){
 	return 
 }

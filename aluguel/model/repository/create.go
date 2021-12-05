@@ -95,11 +95,17 @@ func CreateTable(db *sql.DB) error {
 		"email VARCHAR(70), " +
 		"senha VARCHAR(100), " +
 		"fk_cliente INT, " +
-		"token	VARCHAR(100), " +
+		"token	VARCHAR(200), " +
 		"CONSTRAINT id PRIMARY KEY (fk_cliente), " +
 		"FOREIGN KEY (fk_cliente) REFERENCES  cliente(id)" + ")")
 	if err != nil {
 		log.Fatalf("Erro ao criar tabela login %v", err)
 	}
+
+	result, err = db.Exec("CREATE TABLE IF NOT EXISTS Admin(" + 
+						"user VARCHAR(5) NOT NULL," + 
+						"senha VARCHAR(100), " +
+						"token VARCHAR(200)" + 
+						")")
 	return nil
 }

@@ -24,10 +24,7 @@ func main() {
 
 	//Admin
 	route.HandleFunc("/getIdCliente/{id}" , controller.GetByIdCliente).Methods("GET")
-
-	route.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Bem vindo")
-	})
+	route.HandleFunc("/", controller.LoginAdmin)
 
 	fmt.Println("Serivdor rodando porta 8080")
 	err := http.ListenAndServe(":8080", route)

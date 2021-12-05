@@ -97,3 +97,23 @@ func InsertEndereco(c *entity.Cliente) (sql.Result, error) {
 	}
 	return result, nil
 }
+
+func InsertAdmin(admin *entity.Admin) error{
+	db, err := OpenSQL()
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err != nil {
+		log.Fatal("Erro ao gerar token ", err)
+	}
+
+	result, err := db.Exec("INSERT INTO Admin(user, senha, token )" + 
+						"VALUES ('" + admin.User + "', '" + admin.Senha + 
+						"' , '" + admin.Token + "')")
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(rowsAffected)
+	return nil
+}

@@ -22,11 +22,6 @@ type Cliente struct {
 	Endereco        Endereco `json:"endereco"`
 	Login           Login    `json:"login"`
 }
-type Login struct {
-	email string
-	Senha string `json:"senha"`
-	Token string
-}
 
 type Contato struct {
 	id       int
