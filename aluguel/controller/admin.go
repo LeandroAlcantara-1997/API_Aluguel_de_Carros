@@ -37,5 +37,15 @@ func CadastroCarros(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetCarrosCadastrados(w http.ResponseWriter, r *http.Request){
+	veiculos, err := repository.GetCarrosCadastrados()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w ,err)
+		return 
+	}
+
+	w.WriteHeader(http.StatusFound)
+	encoder := json.NewEncoder(w)
+	encoder.Encode(veiculos)
 	return 
 }

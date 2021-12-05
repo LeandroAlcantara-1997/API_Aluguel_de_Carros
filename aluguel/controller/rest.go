@@ -3,6 +3,7 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
+	//"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -10,6 +11,9 @@ import (
 	"github.com/LeandroAlcantara-1997/model/entity"
 	"github.com/LeandroAlcantara-1997/model/repository"
 )
+
+//var templates *template.Template
+//var tem = template.Must(template.ParseGlob("view/*.html"))
 
 func CadastraCliente(w http.ResponseWriter, r *http.Request){
 	body, err := ioutil.ReadAll(r.Body) 
@@ -48,9 +52,17 @@ func CadastraCliente(w http.ResponseWriter, r *http.Request){
 }
 
 func LoginCliente(w http.ResponseWriter, r *http.Request){
-	
-
-
+	//tem.ExecuteTemplate(w, "index.html", nil)
+	email := r.FormValue("email")
+	senha := r.FormValue("senha")
+	fmt.Println(email, senha)
+	err := repository.Logar(email, senha)
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		fmt.Fprint(w, err)
+		return
+	}
+	fmt.Fprint(w, "Logado")
 	return 
 }
 
@@ -72,6 +84,7 @@ func LoginAdmin(w http.ResponseWriter, r *http.Request){
 		return
 	}
 	w.WriteHeader(http.StatusAccepted)
+	fmt.Fprint(w, "Admin logado")
 	//http.Redirect()
 	return 
 }

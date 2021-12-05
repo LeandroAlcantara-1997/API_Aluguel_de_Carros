@@ -13,7 +13,7 @@ type Admin struct {
 }
 
 type Login struct {
-	email string
+	Email string
 	Senha string `json:"senha"`
 	Token string
 }

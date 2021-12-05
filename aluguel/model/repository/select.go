@@ -15,6 +15,7 @@ func GetByIdCliente(id int) (entity.Cliente, error) {
 	}
 	var rows *sql.Rows
 	var cliente entity.Cliente
+	//Alterar Query para QueryRow
 	rows, err = db.Query("SELECT nome, sobrenome, dataNascimento, rg, cpf, cnh FROM 					cliente " + "WHERE id=" + fmt.Sprint(id))
 	if err != nil {
 		log.Fatal("Erro ao retornar cadastro", err)
@@ -27,4 +28,59 @@ func GetByIdCliente(id int) (entity.Cliente, error) {
 		}
 	}
 	return cliente, nil
+}
+
+func Logar(email, senha string) error {
+	db, err := OpenSQL()
+	var log entity.Login
+	if err != nil {
+		return fmt.Errorf("%v", err)
+	}
+
+	//Alterar Query para QueryRow
+	rows, err := db.Query("SELECT email, senha, token FROM login "+ 
+	"WHERE email='"+ email + "' AND " + "senha='" + senha + "'")
+	if err != nil {
+		return fmt.Errorf("Erro ao fazer select", err)
+	}
+	for rows.Next(){
+		err = rows.Scan(&log.Email, &log.Senha, &log.Token)
+		if err != nil {
+			return fmt.Errorf("Erro ao pegar dados do login", err)
+		}
+	}
+
+	if log.Email == "" && log.Senha == "" && log.Token == "" {
+		return fmt.Errorf("Acesso negado")
+	}
+
+	return nil
+}
+
+func GetCarrosCadastrados() ([]entity.Veiculo, error) {
+	db, err := OpenSQL()
+	var veiculos []entity.Veiculo
+	var veiculo entity.Veiculo
+	if err != nil {
+		return nil ,fmt.Errorf("%v", err)
+	}
+	rows, err := db.Query("SELECT  * FROM veiculo")
+	if err != nil {
+		return nil, fmt.Errorf("Erro ao executar select para a tabela veiculos", err)
+	}
+
+	for rows.Next() {
+		err = rows.Scan(&veiculo.Id, &veiculo.Modelo, &veiculo.Marca, &veiculo.Ano, &veiculo.Cor, &veiculo.Km_Litro, &veiculo.Valor_Dia, &veiculo.Valor_Hora)
+		if err != nil {
+			return nil, fmt.Errorf("Erro ao atribuir valores a struct veiculo")
+		}
+		veiculos = append(veiculos, veiculo)
+	}
+
+	if veiculos == nil {
+		return nil, fmt.Errorf("Nenhum veiculo encontrado")
+	}
+	fmt.Println(veiculos)
+
+	return veiculos, nil
 }

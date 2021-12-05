@@ -47,7 +47,7 @@ func (c *Cliente) ValidaCliente() error {
 		return fmt.Errorf("Número de CPF inválido")
 	}
 
-	data, err := validaData(c.Data_Nascimento)
+	data, err := ValidaData(c.Data_Nascimento)
 	if err != nil {
 		return fmt.Errorf("%v ", err)
 	}
@@ -56,8 +56,8 @@ func (c *Cliente) ValidaCliente() error {
 	if err != nil {
 		return fmt.Errorf(" %v", err)
 	}
-	c.Login.email = c.Contato.Email
-	passbyte, err := bcrypt.GenerateFromPassword([]byte(c.Login.email+c.Login.Senha), 10)
+	c.Login.Email = c.Contato.Email
+	passbyte, err := bcrypt.GenerateFromPassword([]byte(c.Login.Email+c.Login.Senha), 10)
 
 	if err != nil {
 		return fmt.Errorf("Erro ao cadastrar token")
@@ -96,7 +96,7 @@ func validaNumber(number string) bool {
 	return false
 }
 
-func validaData(date string) (string, error) {
+func ValidaData(date string) (string, error) {
 	data := strings.Split(date, "/")
 	dia, err := strconv.Atoi(data[0])
 	if err != nil {
@@ -108,7 +108,7 @@ func validaData(date string) (string, error) {
 		return "", fmt.Errorf("Erro ao parsear mes para int %v", err)
 	}
 
-	mes, err := validaMes(m)
+	mes, err := ValidaMes(m)
 	if err != nil {
 		return "", fmt.Errorf("Error: %v", err)
 	}
@@ -124,11 +124,11 @@ func validaData(date string) (string, error) {
 	if !nasc.Before(compare) {
 		return "", fmt.Errorf("Ano de nascimento deve ser anterior a data atual")
 	}
-	
+
 	return nasc.Format("2006-01-02"), nil
 }
 
-func validaMes(mes int) (time.Month, error) {
+func ValidaMes(mes int) (time.Month, error) {
 	switch mes {
 	case 1:
 		return 1, nil
