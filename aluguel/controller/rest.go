@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	//"html/template"
+	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -14,8 +14,8 @@ import (
 	"github.com/LeandroAlcantara-1997/model/repository"
 )
 
-//var templates *template.Template
-//var tem = template.Must(template.ParseGlob("view/*.html"))
+var templates *template.Template
+var tem = template.Must(template.ParseGlob("view/*.html"))
 
 func CadastraCliente(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
@@ -54,7 +54,7 @@ func CadastraCliente(w http.ResponseWriter, r *http.Request) {
 }
 
 func LoginCliente(w http.ResponseWriter, r *http.Request) {
-	//tem.ExecuteTemplate(w, "index.html", nil)
+	tem.ExecuteTemplate(w, "index.html", nil)
 	email := r.FormValue("email")
 	senha := r.FormValue("senha")
 	fmt.Println(email, senha)

@@ -4,9 +4,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bem vindo ao Car Rental</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <title>Login</title>
 </head>
 <body>
-    <h1>Bem vindo ao car rental 1</h1>
+    <header>
+        <h1>Bem vindos ao Car Rental</h1>
+    </header>
+    <main>
+        <div>
+            <a href="https://storyset.com/people" target="_blanck"><img src="image/home.svg" alt="carro"></a>
+            <div class="form">
+                <form id="login" method="POST">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email">
+                    <label for="senha">Senha</label>
+                    <input type="password" name="senha" id="senha">
+                    <button type="submit" formaction="http://localhost:8080/" form="login">Submit</button>
+                </form>
+                <p>Não tem uma conta? <a href="cadastroCliente.html"> Cadastre-se</a></p>
+                <a href="loginAdmin.html">Login Admin</a>
+            </div>
+        </div>
+    </main>
+    <footer>
+
+    </footer>
 </body>
 </html>

@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@700&family=Lato&family=Roboto+Slab:wght@600&display=swap'); 
+
+body {
+    background-color: black;
+    font-family: 'Lato', sans-serif;
+}
+
+header {
+    background-color: orange;
+    height: 100px;
+    text-align: left;
+}
+
+h1 {
+    margin: auto;
+}
+div {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: space-around;
+}
+
+label {
+    display: block;
+    margin-top: 40px;
+}
+.form {
+    display: block;
+    background-color: white;
+    width: 400px;
+    height: 400px;
+    text-align: center;
+    justify-items: center;
+    border-radius: 5px;
+}
+
+input {
+    display: block;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+img {
+    width: 500px;
+    height: 500px;
+}
+footer {
+    background-color: #ffa500;
+}
