@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+
+
+
+body {
+    background-color: rgb(46, 40, 40);
+}
+
+h1 {
+    padding-top: 25px;
+}
+header {
+    background-color: #ffa500;
+    font-family: 'Bebas Neue', cursive;
+    height: 100px;
+    text-align: center;
+} 
+
+.form {
+    font-family: 'Lato', sans-serif;
+}
+
+input {
+    width: 300px;
+    height: 20px;
+    display: block;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+select {
+    background-color: white;
+    width: 300px;
+    height: 30px;
+    border-radius: 5px;
+    border: solid black 2px;
+}
+img {
+    width: 70%;
+    height: 55%;
+}
+
+button {
+    display: block;
+    margin: auto;
+    width: 100px;
+    height: 30px;
+}

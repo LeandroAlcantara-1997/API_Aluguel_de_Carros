@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"html/template"
+	//"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -14,8 +14,8 @@ import (
 	"github.com/LeandroAlcantara-1997/model/repository"
 )
 
-var templates *template.Template
-var tem = template.Must(template.ParseGlob("view/*.html"))
+//var templates *template.Template
+//var tem = template.Must(template.ParseGlob("view/*.html"))
 
 func CadastraCliente(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
@@ -54,7 +54,7 @@ func CadastraCliente(w http.ResponseWriter, r *http.Request) {
 }
 
 func LoginCliente(w http.ResponseWriter, r *http.Request) {
-	tem.ExecuteTemplate(w, "index.html", nil)
+	//tem.ExecuteTemplate(w, "home.html", nil)
 	email := r.FormValue("email")
 	senha := r.FormValue("senha")
 	fmt.Println(email, senha)
@@ -70,6 +70,7 @@ func LoginCliente(w http.ResponseWriter, r *http.Request) {
 }
 
 func LoginAdmin(w http.ResponseWriter, r *http.Request) {
+	//tem.ExecuteTemplate(w, "loginAdmin.html", nil)
 	var admin entity.Admin
 	admin.User = r.FormValue("user")
 	admin.Senha = r.FormValue("senha")
@@ -92,8 +93,9 @@ func LoginAdmin(w http.ResponseWriter, r *http.Request) {
 	return
 }
 func RestauraSenha(w http.ResponseWriter, r *http.Request) {
-	var cliente entity.Cliente
-	err := email.RecuperarSenha(cliente.Contato.Email)
+	fmt.Println("Entra na funcao rest")
+	emailvalue := r.FormValue("email")
+	err := email.RecuperarSenha(emailvalue)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, err)

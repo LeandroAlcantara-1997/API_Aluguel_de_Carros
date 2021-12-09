@@ -13,19 +13,18 @@ func main() {
 	fs := http.FileServer(http.Dir("./view/assets"))
 	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
 
-
 	http.HandleFunc("/aluguel", controller.GetAluguel)
 
 	//Cliente
 	http.HandleFunc("/cadastroCliente", controller.CadastraCliente)
-	http.HandleFunc("/", controller.LoginCliente)
+	http.HandleFunc("/login", controller.LoginCliente)
 	http.HandleFunc("/recuperarSenha", controller.RestauraSenha)
 
 	//Carros
 	http.HandleFunc("/carrosCadastrados", controller.GetCarrosCadastrados)
 
 	//Admin
-	http.HandleFunc("/getIdCliente/{id}", controller.GetByIdCliente)
+	http.HandleFunc("/getIdCliente", controller.GetByIdCliente)
 	http.HandleFunc("/getClientes", controller.GetClientesCadastrados)
 	http.HandleFunc("/loginAdmin", controller.LoginAdmin)
 

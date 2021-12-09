@@ -7,19 +7,18 @@ import (
 	"strconv"
 
 	"github.com/LeandroAlcantara-1997/model/repository"
-	"github.com/gorilla/mux"
 )
 
 func GetByIdCliente(w http.ResponseWriter, r *http.Request) {
-	value := mux.Vars(r)
-	fmt.Println(value)
-	id, err := strconv.Atoi(value["id"])
+	value := r.FormValue("id")
+	id, err := strconv.Atoi(value)
+	fmt.Fprint(w, id)
 	if err != nil {
-		w.WriteHeader(http.StatusBadGateway)
+		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, "Erro ao converter parametro id para int", err)
 		return
 	}
-	cliente, err := repository.GetByIdCliente(id)
+	cliente, err := repository.GetByIdCliente(1)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, "Erro ao retornar cadastro", err)
@@ -41,7 +40,7 @@ func GetClientesCadastrados(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusFound)
 	encoder := json.NewEncoder(w)
 	encoder.Encode(clientes)
-	return 
+	return
 }
 func GetCarrosCadastrados(w http.ResponseWriter, r *http.Request) {
 	veiculos, err := repository.GetCarrosCadastrados()

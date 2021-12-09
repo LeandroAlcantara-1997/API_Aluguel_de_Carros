@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 
@@ -9,24 +8,24 @@ import (
 )
 
 func GetByIdCliente(id int) (entity.Cliente, error) {
+	fmt.Println("Entra na funcao")
 	db, err := OpenSQL()
 	if err != nil {
 		log.Fatal("%v", err)
 	}
-	var rows *sql.Rows
+
 	var cliente entity.Cliente
 	//Alterar Query para QueryRow
-	rows, err = db.Query("SELECT nome, sobrenome, dataNascimento, rg, cpf, cnh FROM 					cliente " + "WHERE id=" + fmt.Sprint(id))
+	rows := db.QueryRow("SELECT nome, sobrenome, dataNascimento, rg, cpf, cnh FROM 	cliente " + "WHERE id= ?" + fmt.Sprint(id))
 	if err != nil {
-		log.Fatal("Erro ao retornar cadastro", err)
+		return cliente, fmt.Errorf("Erro ao procurar cliente: %v", err)
 	}
 
-	for rows.Next() {
-		err = rows.Scan(&cliente.Nome, &cliente.Sobrenome, &cliente.Data_Nascimento, &cliente.RG, &cliente.CPF, &cliente.CNH)
-		if err != nil {
-			log.Fatal("Erro ao pegar dados do cliente ", err)
-		}
+	err = rows.Scan(&cliente.Nome, &cliente.Sobrenome, &cliente.Data_Nascimento, &cliente.RG, &cliente.CPF, &cliente.CNH)
+	if err != nil {
+		log.Fatal("Erro ao pegar dados do cliente ", err)
 	}
+
 	return cliente, nil
 }
 
@@ -51,7 +50,7 @@ func Logar(email, senha string) error {
 	}
 
 	if log.Email == "" && log.Senha == "" && log.Token == "" {
-		return fmt.Errorf("Acesso negado")
+		return fmt.Errorf("Acesso permitido")
 	}
 
 	return nil

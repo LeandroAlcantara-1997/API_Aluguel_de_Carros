@@ -6,8 +6,6 @@ import (
 	"strings"
 	"time"
 	"unicode"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 type Cliente struct {
@@ -57,7 +55,7 @@ func (c *Cliente) ValidaCliente() error {
 		return fmt.Errorf(" %v", err)
 	}
 	c.Login.Email = c.Contato.Email
-	passbyte, err := bcrypt.GenerateFromPassword([]byte(c.Login.Email+c.Login.Senha), 10)
+	passbyte, err := GeraToken(c.Login.Email + c.Login.Senha)
 
 	if err != nil {
 		return fmt.Errorf("Erro ao cadastrar token")

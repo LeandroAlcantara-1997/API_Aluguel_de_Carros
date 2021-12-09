@@ -24,11 +24,20 @@ func (a *Admin) ValidaAdmin() error{
 	} else if (a.Senha != "admin123456" ) {
 		return fmt.Errorf("Senha do admin inválida")
 	}
-	token, err := bcrypt.GenerateFromPassword([]byte(a.User + a.Senha), 10)
+	token, err := GeraToken(a.User + a.Senha)
 	a.Token = string(token)
 	if err != nil {
 		return fmt.Errorf("Erro ao criar token admin ", err)
 	}
 
 	return nil
+}
+
+func GeraToken(dados string) (string, error){
+	senha, err := bcrypt.GenerateFromPassword([]byte(dados), 10)
+	if err != nil {
+		return "", fmt.Errorf("Erro ao gerar token")
+	}
+
+	return string(senha), nil
 }
