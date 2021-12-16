@@ -57,7 +57,7 @@ func LoginCliente(w http.ResponseWriter, r *http.Request) {
 	//tem.ExecuteTemplate(w, "home.html", nil)
 	email := r.FormValue("email")
 	senha := r.FormValue("senha")
-	fmt.Println(email, senha)
+
 	err := repository.Logar(email, senha)
 	if err != nil {
 		w.WriteHeader(http.StatusUnauthorized)
@@ -95,7 +95,14 @@ func LoginAdmin(w http.ResponseWriter, r *http.Request) {
 func RestauraSenha(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Entra na funcao rest")
 	emailvalue := r.FormValue("email")
-	err := email.RecuperarSenha(emailvalue)
+	err := repository.GetEmailToSenha(emailvalue)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, err)
+		return 
+	}
+
+	err = email.RecuperarSenha(emailvalue)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, err)

@@ -16,6 +16,7 @@ func RecuperarSenha(email string) error {
 	if err != nil {
 		return fmt.Errorf("Erro: %v", err)
 	}
+	
 	fmt.Println("Gera a senha aleatoria")
 	err = repository.UpdateSenha(email, senha)
 	if err != nil {

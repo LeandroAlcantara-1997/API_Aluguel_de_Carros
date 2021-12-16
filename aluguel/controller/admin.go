@@ -12,16 +12,15 @@ import (
 func GetByIdCliente(w http.ResponseWriter, r *http.Request) {
 	value := r.FormValue("id")
 	id, err := strconv.Atoi(value)
-	fmt.Fprint(w, id)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, "Erro ao converter parametro id para int", err)
 		return
 	}
-	cliente, err := repository.GetByIdCliente(1)
+	cliente, err := repository.GetByIdCliente(id)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, "Erro ao retornar cadastro", err)
+		fmt.Fprint(w, err)
 		return
 	}
 	w.WriteHeader(http.StatusFound)
