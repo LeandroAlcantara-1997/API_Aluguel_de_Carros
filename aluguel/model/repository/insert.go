@@ -43,7 +43,7 @@ func InsertLogin(c *entity.Cliente) error {
 		return fmt.Errorf("%v", err)
 	}
 
-	_, err = db.Exec("INSERT INTO login (email, senha, fk_cliente, token) VALUES ('" + c.Contato.Email + "', '" + c.Login.Senha + "', '" + fmt.Sprint(c.Id) + "', '" + c.Login.Token + "')")
+	_, err = db.Exec("INSERT INTO login (email, fk_cliente, token) VALUES ('" + c.Contato.Email + "', '" + fmt.Sprint(c.Id) + "', '" + c.Login.Token + "')")
 
 	if err != nil {
 		return fmt.Errorf("Error ao fazer insert do login %v", err)

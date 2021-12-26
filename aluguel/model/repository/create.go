@@ -89,7 +89,6 @@ func createCliente(db *sql.DB) error {
 func createLogin(db *sql.DB) error {
 	_, err := db.Exec("CREATE TABLE IF NOT EXISTS login(" +
 		"email VARCHAR(70), " +
-		"senha VARCHAR(100), " +
 		"fk_cliente INT, " +
 		"token	VARCHAR(100), " +
 		"CONSTRAINT id PRIMARY KEY (fk_cliente), " +

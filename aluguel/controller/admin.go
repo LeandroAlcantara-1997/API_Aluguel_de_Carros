@@ -6,12 +6,37 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/LeandroAlcantara-1997/model/entity"
 	"github.com/LeandroAlcantara-1997/model/repository"
 )
 
-
-func HomeAdmin(w http.ResponseWriter, r *http.Request){
+func HomeAdmin(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Redirecionado admin")
+}
+
+func LoginAdmin(w http.ResponseWriter, r *http.Request) {
+	//tem.ExecuteTemplate(w, "loginAdmin.html", nil)
+	var admin entity.Admin
+	admin.User = r.FormValue("user")
+	admin.Senha = r.FormValue("senha")
+	err := admin.ValidaAdmin()
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		fmt.Fprint(w, "Erro ao validar admin", err)
+		return
+	}
+
+	err = repository.InsertAdmin(&admin)
+	if err != nil {
+		fmt.Fprint(w, "Erro ao inserir admin: ", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	/*w.WriteHeader(http.StatusAccepted)
+	fmt.Fprint(w, "Admin logado")*/
+	http.Redirect(w, r, "/homeAdmin", http.StatusFound)
+
+	return
 }
 
 func GetByIdCliente(w http.ResponseWriter, r *http.Request) {
