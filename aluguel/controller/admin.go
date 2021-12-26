@@ -9,6 +9,11 @@ import (
 	"github.com/LeandroAlcantara-1997/model/repository"
 )
 
+
+func HomeAdmin(w http.ResponseWriter, r *http.Request){
+	fmt.Fprint(w, "Redirecionado admin")
+}
+
 func GetByIdCliente(w http.ResponseWriter, r *http.Request) {
 	value := r.FormValue("id")
 	id, err := strconv.Atoi(value)

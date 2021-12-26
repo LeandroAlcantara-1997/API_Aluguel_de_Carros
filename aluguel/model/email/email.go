@@ -11,18 +11,15 @@ import (
 )
 
 func RecuperarSenha(email string) error {
-	fmt.Println("Entra na email")
 	senha, err := senhaAleatoria()
 	if err != nil {
 		return fmt.Errorf("Erro: %v", err)
 	}
 	
-	fmt.Println("Gera a senha aleatoria")
 	err = repository.UpdateSenha(email, senha)
 	if err != nil {
 		return fmt.Errorf("%v", err)
 	}
-	fmt.Println("Saiu do banco de dados")
 	m := gomail.NewMessage()
 
 	// Quem envia
@@ -46,7 +43,6 @@ func RecuperarSenha(email string) error {
 
 	// Enviando email
 	if err := d.DialAndSend(m); err != nil {
-		fmt.Println(err)
 		panic(err)
 	}
 

@@ -2,7 +2,6 @@ package repository
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -31,7 +30,7 @@ func CreateTables(db *sql.DB) error {
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
-	
+
 	err = createLogin(db)
 	if err != nil {
 		log.Fatalf("%v", err)
@@ -57,12 +56,12 @@ func CreateTables(db *sql.DB) error {
 		log.Fatalf("%v", err)
 	}
 
-	err = createAluguel(db) 
-	if err != nil{
+	err = createAluguel(db)
+	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = createVeiculos(db) 
+	err = createVeiculos(db)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -71,7 +70,7 @@ func CreateTables(db *sql.DB) error {
 }
 
 func createCliente(db *sql.DB) error {
-	result, err := db.Exec("CREATE TABLE IF NOT EXISTS cliente (" +
+	_, err := db.Exec("CREATE TABLE IF NOT EXISTS cliente (" +
 		"id INT AUTO_INCREMENT, " +
 		"nome VARCHAR(25) NOT NULL, " +
 		"sobrenome VARCHAR(50) NOT NULL, " +
@@ -84,12 +83,11 @@ func createCliente(db *sql.DB) error {
 	if err != nil {
 		log.Fatalf("Erro ao criar tabela cliente %v ", err)
 	}
-	fmt.Print(result.RowsAffected())
 	return nil
 }
 
 func createLogin(db *sql.DB) error {
-	result, err := db.Exec("CREATE TABLE IF NOT EXISTS login(" +
+	_, err := db.Exec("CREATE TABLE IF NOT EXISTS login(" +
 		"email VARCHAR(70), " +
 		"senha VARCHAR(100), " +
 		"fk_cliente INT, " +
@@ -100,13 +98,11 @@ func createLogin(db *sql.DB) error {
 		log.Fatalf("Erro ao criar tabela login %v", err)
 	}
 
-	fmt.Println(result.RowsAffected())
-
 	return nil
 }
 
-func createContato(db *sql.DB) error{
-	result, err := db.Exec("CREATE TABLE IF NOT EXISTS contato(" + "id INT AUTO_INCREMENT PRIMARY KEY, " +
+func createContato(db *sql.DB) error {
+	_, err := db.Exec("CREATE TABLE IF NOT EXISTS contato(" + "id INT AUTO_INCREMENT PRIMARY KEY, " +
 		"celular VARCHAR(11), " +
 		"telefone VARCHAR(10), " +
 		"email	VARCHAR(70), " +
@@ -116,12 +112,11 @@ func createContato(db *sql.DB) error{
 	if err != nil {
 		log.Fatalf("Erro ao criar tabela contato %v ", err)
 	}
-	fmt.Println(result.RowsAffected())
 	return nil
 }
 
 func createEndereco(db *sql.DB) error {
-	result, err := db.Exec("CREATE TABLE IF NOT EXISTS endereco(" +
+	_, err := db.Exec("CREATE TABLE IF NOT EXISTS endereco(" +
 		"id INT AUTO_INCREMENT PRIMARY KEY, " +
 		"fk_estado INT, " +
 		"cidade VARCHAR(25), " +
@@ -137,13 +132,12 @@ func createEndereco(db *sql.DB) error {
 		log.Fatalf("Erro ao criar tabela endereco %v", err)
 	}
 
-	fmt.Println(result.RowsAffected())
 	return nil
 
 }
 
-func createEstado(db *sql.DB) error{
-	result, err := db.Exec("CREATE TABLE IF NOT EXISTS estado(" +
+func createEstado(db *sql.DB) error {
+	_, err := db.Exec("CREATE TABLE IF NOT EXISTS estado(" +
 		"id INT AUTO_INCREMENT PRIMARY KEY, " +
 		"nome VARCHAR(25) UNIQUE, " +
 		"pais	VARCHAR(15) DEFAULT 'Brasil'" +
@@ -151,56 +145,54 @@ func createEstado(db *sql.DB) error{
 	if err != nil {
 		log.Fatalf("Erro ao criar tabela estado %v", err)
 	}
-	fmt.Println(result.RowsAffected())
+
 	return nil
 }
 
 func createAdmin(db *sql.DB) error {
-	result, err := db.Exec("CREATE TABLE IF NOT EXISTS admin(" + 
-		"user VARCHAR(5) NOT NULL," + 
+	_, err := db.Exec("CREATE TABLE IF NOT EXISTS admin(" +
+		"user VARCHAR(5) NOT NULL," +
 		"senha VARCHAR(100), " +
-		"token VARCHAR(200)" + 
+		"token VARCHAR(200)" +
 		")")
 
-		if err != nil {
-			log.Fatalf("Erro ao criar tabela Admin ", err)
-		}
+	if err != nil {
+		log.Fatalf("Erro ao criar tabela Admin ", err)
+	}
 
-		fmt.Println(result.RowsAffected())
-		return nil
+	return nil
 }
 
 func createAluguel(db *sql.DB) error {
-	result, err := db.Exec("CREATE TABLE IF NOT EXISTS aluguel(" +
-		"data_inicio TIMESTAMP, " + 
-		"data_retorno TIMESTAMP, " + 
-		"total DOUBLE, " + 
-		"fk_veiculo INT, " + 
+	_, err := db.Exec("CREATE TABLE IF NOT EXISTS aluguel(" +
+		"data_inicio TIMESTAMP, " +
+		"data_retorno TIMESTAMP, " +
+		"total DOUBLE, " +
+		"fk_veiculo INT, " +
 		"fk_cliente INT" +
 		")")
 
-		if err != nil {
-			log.Fatalf("Erro ao criar tabela aluguel ", err)
-		}
-		fmt.Println(result.RowsAffected())
+	if err != nil {
+		log.Fatalf("Erro ao criar tabela aluguel ", err)
+	}
 
-		return nil
+	return nil
 }
 
 func createVeiculos(db *sql.DB) error {
-	result, err := db.Exec("CREATE TABLE IF NOT EXISTS veiculo(" + 
+	_, err := db.Exec("CREATE TABLE IF NOT EXISTS veiculo(" +
 		"id INT AUTO_INCREMENT PRIMARY KEY, " +
 		"modelo VARCHAR(50), " +
 		"marca	VARCHAR(50), " +
 		"ano YEAR," +
 		"cor VARCHAR(20), " +
-		"km_litro FLOAT, " + 
+		"km_litro FLOAT, " +
 		"valor_dia DOUBLE," +
 		"valor_hora DOUBLE" +
-		")" )
+		")")
 	if err != nil {
 		log.Fatalf("Erro ao criar tabela veiculo")
 	}
-	fmt.Println(result.RowsAffected())
+
 	return nil
 }

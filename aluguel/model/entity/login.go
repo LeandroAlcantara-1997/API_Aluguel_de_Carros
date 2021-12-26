@@ -1,14 +1,13 @@
 package entity
 
 import (
+	"crypto/sha1"
 	"fmt"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 type Admin struct {
 	User  string `json:"user"`
-	Senha string	`json:"senha"`
+	Senha string `json:"senha"`
 	Token string
 }
 
@@ -18,10 +17,10 @@ type Login struct {
 	Token string
 }
 
-func (a *Admin) ValidaAdmin() error{
+func (a *Admin) ValidaAdmin() error {
 	if a.User != "admin" {
 		return fmt.Errorf("User diferente de admin")
-	} else if (a.Senha != "admin123456" ) {
+	} else if a.Senha != "admin123456" {
 		return fmt.Errorf("Senha do admin inválida")
 	}
 	token, err := GeraToken(a.User + a.Senha)
@@ -33,11 +32,8 @@ func (a *Admin) ValidaAdmin() error{
 	return nil
 }
 
-func GeraToken(dados string) (string, error){
-	senha, err := bcrypt.GenerateFromPassword([]byte(dados), 10)
-	if err != nil {
-		return "", fmt.Errorf("Erro ao gerar token")
-	}
-
-	return string(senha), nil
+func GeraToken(dados string) (string, error) {
+	sl := sha1.Sum([]byte(dados))
+	token := fmt.Sprintf("%x", sl)
+	return token, nil
 }
