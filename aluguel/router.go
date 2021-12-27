@@ -11,8 +11,6 @@ import (
 
 func main() {
 	r := mux.NewRouter()
-	/*fs := http.FileServer(http.Dir("./view/assets"))
-	http.Handle("/assets/", http.StripPrefix("/assets/", fs))*/
 	fs := http.FileServer(http.Dir("./view/assets"))
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", fs))
 	http.Handle("/", r)
@@ -37,7 +35,10 @@ func main() {
 	//Admin
 	r.HandleFunc("/getIdCliente", controller.GetByIdCliente)
 	r.HandleFunc("/getClientes", controller.GetClientesCadastrados)
-	r.HandleFunc("/loginAdmin", controller.LoginAdmin)
+
+	r.HandleFunc("/loginAdmin", controller.GetLoginAdmin).Methods("GET")
+	r.HandleFunc("/loginAdmin", controller.PostLoginAdmin).Methods("POST")
+	
 	r.HandleFunc("/getAlugueis", controller.GetAluguel)
 	r.HandleFunc("/homeAdmin", controller.HomeAdmin)
 

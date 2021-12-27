@@ -12,9 +12,6 @@ import (
 	"github.com/LeandroAlcantara-1997/model/repository"
 )
 
-//Utilizar bcrypt para gerar o cookie
-//var store = sessions.NewCookieStore([]byte("t0p-s3cr3t"))
-
 func HomeCliente(w http.ResponseWriter, r *http.Request) {
 	ExecuteTemplate(w, "recuperarSenha.html", nil)
 }
@@ -71,6 +68,13 @@ func PostLoginCliente(w http.ResponseWriter, r *http.Request) {
 	err := repository.Logar(email, senha)
 	if err != nil {
 		w.WriteHeader(http.StatusUnauthorized)
+		fmt.Fprint(w, err)
+		return
+	}
+
+	err = GeraCookie(r, w, email)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, err)
 		return
 	}

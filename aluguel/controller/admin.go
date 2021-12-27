@@ -14,8 +14,11 @@ func HomeAdmin(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Redirecionado admin")
 }
 
-func LoginAdmin(w http.ResponseWriter, r *http.Request) {
-	//tem.ExecuteTemplate(w, "loginAdmin.html", nil)
+func GetLoginAdmin(w http.ResponseWriter, r *http.Request) {
+	ExecuteTemplate(w, "loginAdmin.html", nil)
+}
+
+func PostLoginAdmin(w http.ResponseWriter, r *http.Request) {
 	var admin entity.Admin
 	admin.User = r.FormValue("user")
 	admin.Senha = r.FormValue("senha")
@@ -24,7 +27,7 @@ func LoginAdmin(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnauthorized)
 		fmt.Fprint(w, "Erro ao validar admin", err)
 		return
-	}
+}
 
 	err = repository.InsertAdmin(&admin)
 	if err != nil {
@@ -32,8 +35,6 @@ func LoginAdmin(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	/*w.WriteHeader(http.StatusAccepted)
-	fmt.Fprint(w, "Admin logado")*/
 	http.Redirect(w, r, "/homeAdmin", http.StatusFound)
 
 	return

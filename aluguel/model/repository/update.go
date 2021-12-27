@@ -16,7 +16,7 @@ func UpdateSenha(email, senha string) error {
 		return fmt.Errorf("%v", err)
 	}
 	_, err = db.Exec("UPDATE login "+
-					"SET senha = '" + senha + "', token='" + token + 
+					"SET token='" + token + 
 					"' WHERE email = '" + email + "'")
 	if err != nil {
 		return fmt.Errorf("Erro ao fazer update %v", err)

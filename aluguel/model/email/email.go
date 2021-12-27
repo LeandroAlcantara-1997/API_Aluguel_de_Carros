@@ -23,7 +23,7 @@ func RecuperarSenha(email string) error {
 	m := gomail.NewMessage()
 
 	// Quem envia
-	m.SetHeader("From", "example@gmail.com")
+	m.SetHeader("From", "email7@gmail.com")
 
 	// Destinatario
 	m.SetHeader("To", email)
@@ -35,7 +35,7 @@ func RecuperarSenha(email string) error {
 	m.SetBody("text/plain", senha)
 
 	// Configuracao de conta
-	d := gomail.NewDialer("smtp.gmail.com", 587, "example@gmail.com", "senha")
+	d := gomail.NewDialer("smtp.gmail.com", 587, "email@gmail.com", "senha")
 
 	// This is only needed when SSL/TLS certificate is not valid on server.
 	// In production this should be set to false.
