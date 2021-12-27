@@ -6,33 +6,40 @@ import (
 	"net/http"
 
 	"github.com/LeandroAlcantara-1997/controller"
-	
+	"github.com/gorilla/mux"
 )
 
 func main() {
-
+	r := mux.NewRouter()
+	/*fs := http.FileServer(http.Dir("./view/assets"))
+	http.Handle("/assets/", http.StripPrefix("/assets/", fs))*/
 	fs := http.FileServer(http.Dir("./view/assets"))
-	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
-
-	
+	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", fs))
+	http.Handle("/", r)
+	controller.LoadTemplates("view/*.html")
 
 
 	//Cliente
-	http.HandleFunc("/cadastroCliente", controller.CadastraCliente)
-	http.HandleFunc("/login", controller.LoginCliente)
-	http.HandleFunc("/recuperarSenha", controller.RestauraSenha)
-	http.HandleFunc("/homeCliente", controller.HomeCliente)
+	r.HandleFunc("/cadastroCliente", controller.GetCadastraCliente).Methods("GET")
+	r.HandleFunc("/cadastroCliente", controller.PostCadastraCliente).Methods("POST")
+	
+	r.HandleFunc("/login", controller.GetLoginCliente).Methods("GET")
+	r.HandleFunc("/login", controller.PostLoginCliente).Methods("POST")
+	
+	r.HandleFunc("/recuperarSenha", controller.GetRestauraSenha).Methods("GET")
+	r.HandleFunc("/recuperarSenha", controller.PostRestauraSenha).Methods("POST")
+	
+	r.HandleFunc("/homeCliente", controller.HomeCliente)
 
 	//Carros
-	http.HandleFunc("/carrosCadastrados", controller.GetCarrosCadastrados)
-	
+	r.HandleFunc("/carrosCadastrados", controller.GetCarrosCadastrados)
 
 	//Admin
-	http.HandleFunc("/getIdCliente", controller.GetByIdCliente)
-	http.HandleFunc("/getClientes", controller.GetClientesCadastrados)
-	http.HandleFunc("/loginAdmin", controller.LoginAdmin)
-	http.HandleFunc("/getAlugueis", controller.GetAluguel)
-	http.HandleFunc("/homeAdmin", controller.HomeAdmin)
+	r.HandleFunc("/getIdCliente", controller.GetByIdCliente)
+	r.HandleFunc("/getClientes", controller.GetClientesCadastrados)
+	r.HandleFunc("/loginAdmin", controller.LoginAdmin)
+	r.HandleFunc("/getAlugueis", controller.GetAluguel)
+	r.HandleFunc("/homeAdmin", controller.HomeAdmin)
 
 	fmt.Println("Serivdor rodando porta 8080")
 	err := http.ListenAndServe(":8080", nil)

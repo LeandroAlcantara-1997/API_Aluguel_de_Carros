@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 
-	//"html/template"
 	"io/ioutil"
 	"net/http"
 
@@ -13,19 +12,18 @@ import (
 	"github.com/LeandroAlcantara-1997/model/repository"
 )
 
-//var templates *template.Template
-//var tem = template.Must(template.ParseGlob("view/*.html"))
-
 //Utilizar bcrypt para gerar o cookie
 //var store = sessions.NewCookieStore([]byte("t0p-s3cr3t"))
 
 func HomeCliente(w http.ResponseWriter, r *http.Request) {
-	//tem.ExecuteTemplate(w, "recuperarSenha.html", nil)
-	fmt.Fprint(w, "Redirecionado!")
+	ExecuteTemplate(w, "recuperarSenha.html", nil)
 }
 
-func CadastraCliente(w http.ResponseWriter, r *http.Request) {
-	//tem.ExecuteTemplate(w, "cadastroCliente.html", nil)
+func GetCadastraCliente(w http.ResponseWriter, r *http.Request) {
+	ExecuteTemplate(w, "cadastroCliente.html", nil)
+}
+
+func PostCadastraCliente(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -58,15 +56,15 @@ func CadastraCliente(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Erro ao inserir cadastro cliente ", err)
 		return
 	}
-	/*w.WriteHeader(http.StatusCreated)
-	fmt.Fprint(w, "Cadastrado realidado com sucesso!")*/
 	http.Redirect(w, r, "/homeCliente", http.StatusFound)
-
 	return
 }
 
-func LoginCliente(w http.ResponseWriter, r *http.Request) {
+func GetLoginCliente(w http.ResponseWriter, r *http.Request) {
+	ExecuteTemplate(w, "home.html", nil)
+}
 
+func PostLoginCliente(w http.ResponseWriter, r *http.Request) {
 	email := r.FormValue("email")
 	senha := r.FormValue("senha")
 
@@ -76,14 +74,16 @@ func LoginCliente(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, err)
 		return
 	}
-	//var write http.ResponseWriter
-	//tem.ExecuteTemplate(w, "home.html", nil)
-	http.Redirect(w, r, "/homeCliente", http.StatusFound)
 
+	http.Redirect(w, r, "/homeCliente", http.StatusFound)
 	return
 }
 
-func RestauraSenha(w http.ResponseWriter, r *http.Request) {
+func GetRestauraSenha(w http.ResponseWriter, r *http.Request) {
+	ExecuteTemplate(w, "recuperarSenha.html", nil)
+}
+
+func PostRestauraSenha(w http.ResponseWriter, r *http.Request) {
 	emailvalue := r.FormValue("email")
 	err := repository.GetEmailToSenha(emailvalue)
 	if err != nil {
