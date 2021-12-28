@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 
@@ -81,18 +82,18 @@ func InsertEndereco(c *entity.Cliente) error {
 	return nil
 }
 
-func InsertAdmin(admin *entity.Admin) error {
-	db, err := OpenSQL()
+func InsertAdmin(db *sql.DB) error {
+	token, err := entity.GeraToken("admin" + "admin123456")
+	fmt.Println(token)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Erro ao gerar token", err)
 	}
+	_, err = db.Exec("INSERT INTO Admin(user, token )" +
+		"VALUES ('" + "admin" +
+		"' , '" + token + "')")
 	if err != nil {
-		log.Fatal("Erro ao gerar token ", err)
+		log.Fatalf("Erro ao inserir admin ", err)
 	}
-
-	_, err = db.Exec("INSERT INTO Admin(user, senha, token )" +
-		"VALUES ('" + admin.User + "', '" + admin.Senha +
-		"' , '" + admin.Token + "')")
 
 	return nil
 }

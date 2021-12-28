@@ -159,6 +159,11 @@ func createAdmin(db *sql.DB) error {
 		log.Fatalf("Erro ao criar tabela Admin ", err)
 	}
 
+	err = InsertAdmin(db)
+	if err != nil {
+		log.Fatalf("Erro ao inserir", err)
+	}
+
 	return nil
 }
 

@@ -27,14 +27,15 @@ func PostLoginAdmin(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnauthorized)
 		fmt.Fprint(w, "Erro ao validar admin", err)
 		return
-}
-
-	err = repository.InsertAdmin(&admin)
-	if err != nil {
-		fmt.Fprint(w, "Erro ao inserir admin: ", err)
-		w.WriteHeader(http.StatusBadRequest)
-		return
 	}
+
+	err = repository.LogarAdmin(&admin)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, err)
+		return 
+	}
+
 	http.Redirect(w, r, "/homeAdmin", http.StatusFound)
 
 	return

@@ -144,3 +144,22 @@ func GetAlugueis() ([]entity.Aluguel, error){
 
 	return alugueis, nil
 }
+
+
+func LogarAdmin(admin *entity.Admin) error {
+	db, err := OpenSQL()
+	if err != nil {
+		return fmt.Errorf("Erro open sql", err)
+	}
+
+	fmt.Println(admin.Token)
+
+	rows := db.QueryRow("SELECT token FROM admin " +
+		"WHERE token = '" + admin.Token + "'")
+
+	err = rows.Scan(&admin.Token)
+	if err != nil {
+		return fmt.Errorf("Acesso negado", err)
+	}
+	return nil
+}

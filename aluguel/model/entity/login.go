@@ -20,7 +20,7 @@ type Login struct {
 func (a *Admin) ValidaAdmin() error {
 	if a.User != "admin" {
 		return fmt.Errorf("User diferente de admin")
-	} else if a.Senha != "admin123456" {
+	} else if a.Senha == "" {
 		return fmt.Errorf("Senha do admin inválida")
 	}
 	token, err := GeraToken(a.User + a.Senha)
