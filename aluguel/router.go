@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/LeandroAlcantara-1997/controller"
+	"github.com/LeandroAlcantara-1997/model/repository"
 	"github.com/gorilla/mux"
 )
 
@@ -15,6 +16,10 @@ func main() {
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", fs))
 	http.Handle("/", r)
 	controller.LoadTemplates("view/*.html")
+	err := repository.CreateTables()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 
 	//Cliente
@@ -43,7 +48,7 @@ func main() {
 	r.HandleFunc("/homeAdmin", controller.HomeAdmin)
 
 	fmt.Println("Serivdor rodando porta 8080")
-	err := http.ListenAndServe(":8080", nil)
+	err = http.ListenAndServe(":8080", nil)
 	if err != nil {
 		log.Fatal("Erro ao rodar servidor ", err)
 	}

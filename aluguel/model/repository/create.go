@@ -18,15 +18,15 @@ func OpenSQL() (*sql.DB, error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = CreateTables(db)
-	if err != nil {
-		log.Fatal(err)
-	}
 	return db, nil
 }
 
-func CreateTables(db *sql.DB) error {
-	err := createCliente(db)
+func CreateTables() error {
+	db, err := OpenSQL()
+	if err  != nil {
+		log.Fatalf("%v", err)
+	}
+	err = createCliente(db)
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
