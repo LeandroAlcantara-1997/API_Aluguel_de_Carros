@@ -47,6 +47,25 @@ func Logar(email, senha string) error {
 	return nil
 }
 
+func LogarAdmin(admin *entity.Admin) error {
+
+	var ad entity.Admin
+	db, err := OpenSQL()
+	if err != nil {
+		return fmt.Errorf("Erro open sql", err)
+	}
+
+	fmt.Println("Entra na funcao")
+	rows := db.QueryRow("SELECT token FROM admin " +
+		"WHERE token == " + admin.Token)
+
+	err = rows.Scan(&ad.Token)
+	if err != nil {
+		return fmt.Errorf("Acesso negado", err)
+	}
+	return nil
+}
+
 func GetEmailToSenha(email string) error {
 	db, err := OpenSQL()
 	var log entity.Login
@@ -117,7 +136,7 @@ func GetClientesCadastrados() ([]entity.Cliente, error) {
 	return clientes, nil
 }
 
-func GetAlugueis() ([]entity.Aluguel, error){
+func GetAlugueis() ([]entity.Aluguel, error) {
 	db, err := OpenSQL()
 	var alugueis []entity.Aluguel
 	var aluguel entity.Aluguel
