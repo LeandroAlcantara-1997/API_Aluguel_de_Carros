@@ -14,9 +14,14 @@ func InsertCliente(cliente *entity.Cliente) error {
 		return fmt.Errorf("%v", err)
 	}
 
-	_, err = db.Exec("INSERT INTO cliente (nome, sobrenome, dataNascimento, rg, cpf, cnh) VALUES ('" + cliente.Nome + "', '" + cliente.Sobrenome + "', '" + cliente.Data_Nascimento + "', '" + cliente.RG + "', '" + cliente.CPF + "', '" + cliente.CNH + "')")
+	result, err := db.Exec("INSERT INTO cliente (nome, sobrenome, dataNascimento, rg, cpf, cnh) VALUES ('" + cliente.Nome + "', '" + cliente.Sobrenome + "', '" + cliente.Data_Nascimento + "', '" + cliente.RG + "', '" + cliente.CPF + "', '" + cliente.CNH + "')")
 	if err != nil {
 		return fmt.Errorf("Erro ao inserir dados na tabela cliente %v", err)
+	}
+
+	cliente.Id, err = result.LastInsertId()
+	if err != nil {
+		return fmt.Errorf("Erro ao recuperar ultimo id ", err)
 	}
 
 	err = InsertLogin(cliente)
@@ -70,7 +75,7 @@ func InsertEndereco(c *entity.Cliente) error {
 	if err != nil {
 		log.Fatal(err)
 	}
-	idEstado, err := entity.ValidaEstado(c.Endereco.Estado)
+	idEstado, err := entity.ValidaEstado(c.Endereco.Estado.Nome)
 	if err != nil {
 		return fmt.Errorf("%v", err)
 	}
@@ -79,8 +84,29 @@ func InsertEndereco(c *entity.Cliente) error {
 	if err != nil {
 		return fmt.Errorf("Error ao fazer insert endereco %v", err)
 	}
+
+	err = InsertEstado(c.Endereco)
+	if err != nil {
+		return fmt.Errorf("%#v", err)
+	}
 	return nil
 }
+
+func InsertEstado(endereco entity.Endereco) error {
+	db, err := OpenSQL()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = db.Exec("INSERT INTO estado (nome, pais) " + 
+					"VALUES ('" + endereco.Estado.Nome + "', '" + endereco.Estado.Pais + "');")
+	if err != nil {
+		return fmt.Errorf("Erro ao inserir dados na tabela estado")
+	}
+
+	return nil
+}
+
 
 func InsertAdmin(db *sql.DB) error {
 	token, err := entity.GeraToken("admin" + "admin123456")

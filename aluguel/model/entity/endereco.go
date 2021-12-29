@@ -4,7 +4,7 @@ import "fmt"
 
 type Endereco struct {
 	id          int
-	Estado      string `json:"estado"`
+	Estado      Estado `json:"estado"`
 	Cidade      string `json:"cidade"`
 	Bairro      string `json:"bairro"`
 	Logradouro  string `json:"logradouro"`

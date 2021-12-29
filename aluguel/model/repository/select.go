@@ -112,8 +112,7 @@ func GetClientesCadastrados() ([]entity.Cliente, error) {
 		}
 		clientes = append(clientes, cliente)
 	}
-
-	fmt.Println(clientes)
+	
 	return clientes, nil
 }
 

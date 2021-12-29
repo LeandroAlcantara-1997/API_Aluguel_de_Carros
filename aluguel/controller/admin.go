@@ -11,6 +11,7 @@ import (
 )
 
 func HomeAdmin(w http.ResponseWriter, r *http.Request) {
+	GetClientesCadastrados(w, r)
 	fmt.Fprint(w, "Redirecionado admin")
 }
 

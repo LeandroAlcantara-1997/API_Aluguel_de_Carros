@@ -15,6 +15,8 @@ func main() {
 	fs := http.FileServer(http.Dir("./view/assets"))
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", fs))
 	http.Handle("/", r)
+
+	//Cria as tabelas assim que o programa é executado
 	controller.LoadTemplates("view/*.html")
 	err := repository.CreateTables()
 	if err != nil {
