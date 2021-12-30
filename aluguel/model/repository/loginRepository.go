@@ -14,7 +14,7 @@ func createLogin(db *sql.DB) error {
 		"fk_cliente INT, " +
 		"token	VARCHAR(100), " +
 		"CONSTRAINT id PRIMARY KEY (fk_cliente), " +
-		"FOREIGN KEY (fk_cliente) REFERENCES  cliente(id)" + ")")
+		"FOREIGN KEY (fk_cliente) REFERENCES  cliente(id)" + ");")
 	if err != nil {
 		log.Fatalf("Erro ao criar tabela login %v", err)
 	}
@@ -29,7 +29,7 @@ func InsertLogin(c *entity.Cliente) error {
 		return fmt.Errorf("%v", err)
 	}
 
-	_, err = db.Exec("INSERT INTO login (email, fk_cliente, token) VALUES ('" + c.Contato.Email + "', '" + fmt.Sprint(c.Id) + "', '" + c.Login.Token + "')")
+	_, err = db.Exec("INSERT INTO login (email, fk_cliente, token) VALUES ('" + c.Contato.Email + "', '" + fmt.Sprint(c.Id) + "', '" + c.Login.Token + "');")
 
 	if err != nil {
 		return fmt.Errorf("Error ao fazer insert do login %v", err)
@@ -45,7 +45,7 @@ func GetEmailToSenha(email string) error {
 	}
 
 	rows := db.QueryRow("SELECT email FROM login " +
-		"WHERE email='" + email + "'")
+		"WHERE email='" + email + "';")
 	fmt.Print(rows)
 	err = rows.Scan(&log.Email)
 	if err != nil {
@@ -68,7 +68,7 @@ func Logar(email, senha string) error {
 		return fmt.Errorf("%#v", err)
 	}
 	rows := db.QueryRow("SELECT token FROM login " +
-		"WHERE token='" + token + "'")
+		"WHERE token='" + token + "';")
 
 	err = rows.Scan(&log.Token)
 	if err != nil {
@@ -89,7 +89,7 @@ func UpdateSenha(email, senha string) error {
 	}
 	_, err = db.Exec("UPDATE login " +
 		"SET token='" + token +
-		"' WHERE email = '" + email + "'")
+		"' WHERE email = '" + email + "';")
 	if err != nil {
 		return fmt.Errorf("Erro ao fazer update %v", err)
 	}

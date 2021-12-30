@@ -18,7 +18,7 @@ func createCliente(db *sql.DB) error {
 		"cpf VARCHAR(11) NOT NULL UNIQUE, " +
 		"cnh VARCHAR(10) UNIQUE, " +
 		"PRIMARY KEY(id)" +
-		")")
+		");")
 	if err != nil {
 		log.Fatalf("Erro ao criar tabela cliente %v ", err)
 	}
@@ -31,7 +31,7 @@ func InsertCliente(cliente *entity.Cliente) error {
 		return fmt.Errorf("%v", err)
 	}
 
-	result, err := db.Exec("INSERT INTO cliente (nome, sobrenome, dataNascimento, rg, cpf, cnh) VALUES ('" + cliente.Nome + "', '" + cliente.Sobrenome + "', '" + cliente.Data_Nascimento + "', '" + cliente.RG + "', '" + cliente.CPF + "', '" + cliente.CNH + "')")
+	result, err := db.Exec("INSERT INTO cliente (nome, sobrenome, dataNascimento, rg, cpf, cnh) VALUES ('" + cliente.Nome + "', '" + cliente.Sobrenome + "', '" + cliente.Data_Nascimento + "', '" + cliente.RG + "', '" + cliente.CPF + "', '" + cliente.CNH + "');")
 	if err != nil {
 		return fmt.Errorf("Erro ao inserir dados na tabela cliente %v", err)
 	}
@@ -67,7 +67,7 @@ func GetClientesCadastrados() ([]entity.Cliente, error) {
 		return nil, fmt.Errorf("", err)
 	}
 
-	rows, err := db.Query("SELECT id, nome, sobrenome, dataNascimento, rg, cpf, cnh FROM cliente")
+	rows, err := db.Query("SELECT id, nome, sobrenome, dataNascimento, rg, cpf, cnh FROM cliente;")
 	if err != nil {
 		return nil, fmt.Errorf("Erro ao executar select na tabela cleinte: ", err)
 	}
@@ -91,7 +91,7 @@ func GetByIdCliente(id int) (entity.Cliente, error) {
 		return cliente, fmt.Errorf("%v", err)
 	}
 
-	rows := db.QueryRow("SELECT nome, sobrenome, dataNascimento, rg, cpf, cnh FROM 	cliente " + "WHERE id= " + fmt.Sprint(id))
+	rows := db.QueryRow("SELECT nome, sobrenome, dataNascimento, rg, cpf, cnh FROM 	cliente " + "WHERE id= " + fmt.Sprint(id) + ";")
 
 	err = rows.Scan(&cliente.Nome, &cliente.Sobrenome, &cliente.Data_Nascimento, &cliente.RG, &cliente.CPF, &cliente.CNH)
 	if err != nil {

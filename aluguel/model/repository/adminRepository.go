@@ -52,7 +52,7 @@ func LogarAdmin(admin *entity.Admin) error {
 	fmt.Println(admin.Token)
 
 	rows := db.QueryRow("SELECT token FROM admin " +
-		"WHERE token = '" + admin.Token + "'")
+		"WHERE token = '" + admin.Token + "';")
 
 	err = rows.Scan(&admin.Token)
 	if err != nil {

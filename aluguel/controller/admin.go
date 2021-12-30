@@ -109,6 +109,20 @@ func CadastraCarro(w http.ResponseWriter, r *http.Request) {
 		Valor_Dia: valor_Dia,
 		Valor_Hora: valor_Hora,
 	}
+	
+	if err = veiculo.ValidaVeiculo(); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, err)
+		return 
+	}
+
+	err = repository.InsertVeiculo(&veiculo)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, err)
+		return 
+	}
+	
 	w.WriteHeader(http.StatusAccepted)
 	fmt.Fprint(w, "Carro cadastrado com sucesso!", veiculo)
 	return

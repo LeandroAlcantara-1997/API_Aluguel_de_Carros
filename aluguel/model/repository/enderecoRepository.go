@@ -20,7 +20,7 @@ func createEndereco(db *sql.DB) error {
 		"complemento VARCHAR(15), " +
 		"fk_cliente INT, " +
 		"FOREIGN KEY (fk_cliente) REFERENCES cliente(id)" +
-		")")
+		");")
 	if err != nil {
 		log.Fatalf("Erro ao criar tabela endereco %v", err)
 	}
@@ -37,7 +37,7 @@ func InsertEndereco(c *entity.Cliente) error {
 	if err != nil {
 		return fmt.Errorf("%v", err)
 	}
-	_, err = db.Exec("INSERT INTO endereco (fk_estado, cidade, bairro, logradouro, rua, numero, complemento, fk_cliente) VALUES ('" + fmt.Sprint(idEstado) + "', '" + c.Endereco.Cidade + "', '" + c.Endereco.Bairro + "', '" + c.Endereco.Logradouro + "', '" + c.Endereco.Rua + "', '" + c.Endereco.Numero + "', '" + c.Endereco.Complemento + "', '" + fmt.Sprint(c.Id) + "')")
+	_, err = db.Exec("INSERT INTO endereco (fk_estado, cidade, bairro, logradouro, rua, numero, complemento, fk_cliente) VALUES ('" + fmt.Sprint(idEstado) + "', '" + c.Endereco.Cidade + "', '" + c.Endereco.Bairro + "', '" + c.Endereco.Logradouro + "', '" + c.Endereco.Rua + "', '" + c.Endereco.Numero + "', '" + c.Endereco.Complemento + "', '" + fmt.Sprint(c.Id) + "');")
 
 	if err != nil {
 		return fmt.Errorf("Error ao fazer insert endereco %v", err)

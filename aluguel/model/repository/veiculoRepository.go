@@ -18,7 +18,7 @@ func createVeiculos(db *sql.DB) error {
 		"km_litro FLOAT, " +
 		"valor_dia DOUBLE," +
 		"valor_hora DOUBLE" +
-		")")
+		");")
 	if err != nil {
 		log.Fatalf("Erro ao criar tabela veiculo")
 	}
@@ -33,7 +33,7 @@ func GetCarrosCadastrados() ([]entity.Veiculo, error) {
 	if err != nil {
 		return nil, fmt.Errorf("%v", err)
 	}
-	rows, err := db.Query("SELECT  * FROM veiculo")
+	rows, err := db.Query("SELECT  * FROM veiculo;")
 	if err != nil {
 		return nil, fmt.Errorf("Erro ao executar select para a tabela veiculos", err)
 	}
@@ -50,6 +50,25 @@ func GetCarrosCadastrados() ([]entity.Veiculo, error) {
 		return nil, fmt.Errorf("Nenhum veiculo encontrado")
 	}
 	fmt.Println(veiculos)
-
 	return veiculos, nil
+}
+
+func InsertVeiculo(veiculo *entity.Veiculo) (error) {
+	db, err := OpenSQL()
+	if err != nil {
+		log.Fatal(err)
+	}
+	result, err := db.Exec("INSERT INTO veiculo(modelo, marca, ano, cor, km_litro, valor_dia, valor_hora) " +
+	"VALUES ('" + veiculo.Modelo + "', '" + veiculo.Marca + "'," + veiculo.Ano + ", '" +
+	veiculo.Cor + "'," + fmt.Sprintf("%f", veiculo.Km_Litro) + "," +  fmt.Sprintf("%f",veiculo.Valor_Dia) + ", " +
+	fmt.Sprintf("%f", veiculo.Valor_Hora) + ");")
+	if err != nil {
+		return fmt.Errorf("Erro ao executar insert veiculo ", err)
+	}
+	veiculo.Id, err = result.LastInsertId()
+	if err != nil {
+		return fmt.Errorf("Erro ao retornar id do veiculo cadastrado")
+	}
+
+	return nil
 }

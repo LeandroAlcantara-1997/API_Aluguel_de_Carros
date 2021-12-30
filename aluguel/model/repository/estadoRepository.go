@@ -13,7 +13,7 @@ func createEstado(db *sql.DB) error {
 		"id INT AUTO_INCREMENT PRIMARY KEY, " +
 		"nome VARCHAR(25) UNIQUE, " +
 		"pais	VARCHAR(15) DEFAULT 'Brasil'" +
-		")")
+		");")
 	if err != nil {
 		log.Fatalf("Erro ao criar tabela estado %v", err)
 	}

@@ -15,7 +15,7 @@ func createAluguel(db *sql.DB) error {
 		"total DOUBLE, " +
 		"fk_veiculo INT, " +
 		"fk_cliente INT" +
-		")")
+		");")
 
 	if err != nil {
 		log.Fatalf("Erro ao criar tabela aluguel ", err)
