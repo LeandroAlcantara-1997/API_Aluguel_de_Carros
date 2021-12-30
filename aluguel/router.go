@@ -49,6 +49,8 @@ func main() {
 	r.HandleFunc("/getAlugueis", controller.GetAluguel)
 	r.HandleFunc("/homeAdmin", controller.HomeAdmin)
 
+	r.HandleFunc("/cadastraCarro", controller.CadastraCarro)
+
 	fmt.Println("Serivdor rodando porta 8080")
 	err = http.ListenAndServe(":8080", nil)
 	if err != nil {

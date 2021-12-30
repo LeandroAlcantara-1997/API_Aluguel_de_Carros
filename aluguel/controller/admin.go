@@ -34,7 +34,7 @@ func PostLoginAdmin(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, err)
-		return 
+		return
 	}
 
 	http.Redirect(w, r, "/homeAdmin", http.StatusFound)
@@ -72,6 +72,45 @@ func GetClientesCadastrados(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusFound)
 	encoder := json.NewEncoder(w)
 	encoder.Encode(clientes)
+	return
+}
+
+func CadastraCarro(w http.ResponseWriter, r *http.Request) {
+	modelo := r.FormValue("modelo")
+	marca := r.FormValue("marca")
+	ano := r.FormValue("ano")
+	cor := r.FormValue("cor")
+	km_Litro, err := strconv.ParseFloat(r.FormValue("km_litro"), 64)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, "Erro ao converter km_litro para float")
+		return 
+	}
+
+	valor_Dia, err := strconv.ParseFloat(r.FormValue("valor_dia"),64)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, "Erro ao converter valor_dia para float")
+		return 
+	}
+	valor_Hora, err:= strconv.ParseFloat(r.FormValue("valor_hora"), 64)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, "Erro ao converter valor_hora para float")
+		return 
+	}
+
+	veiculo := entity.Veiculo{
+		Modelo:   modelo,
+		Marca:    marca,
+		Ano:      ano,
+		Cor:      cor,
+		Km_Litro: km_Litro,
+		Valor_Dia: valor_Dia,
+		Valor_Hora: valor_Hora,
+	}
+	w.WriteHeader(http.StatusAccepted)
+	fmt.Fprint(w, "Carro cadastrado com sucesso!", veiculo)
 	return
 }
 func GetCarrosCadastrados(w http.ResponseWriter, r *http.Request) {
