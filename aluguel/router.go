@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/LeandroAlcantara-1997/controller"
+	utils "github.com/LeandroAlcantara-1997/controller/utils"
 	"github.com/LeandroAlcantara-1997/model/repository"
 	"github.com/gorilla/mux"
 )
@@ -17,27 +18,27 @@ func main() {
 	http.Handle("/", r)
 
 	//Cria as tabelas assim que o programa é executado
-	controller.LoadTemplates("view/*.html")
+	utils.LoadTemplates("view/*.html")
 	err := repository.CreateTables()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-
 	//Cliente
 	r.HandleFunc("/cadastroCliente", controller.GetCadastraCliente).Methods("GET")
 	r.HandleFunc("/cadastroCliente", controller.PostCadastraCliente).Methods("POST")
-	
+
 	r.HandleFunc("/login", controller.GetLoginCliente).Methods("GET")
 	r.HandleFunc("/login", controller.PostLoginCliente).Methods("POST")
-	
+
 	r.HandleFunc("/recuperarSenha", controller.GetRestauraSenha).Methods("GET")
 	r.HandleFunc("/recuperarSenha", controller.PostRestauraSenha).Methods("POST")
-	
+
 	r.HandleFunc("/homeCliente", controller.HomeCliente)
 
 	//Carros
 	r.HandleFunc("/carrosCadastrados", controller.GetCarrosCadastrados)
+	r.HandleFunc("/cadastraCarro", controller.CadastraCarro)
 
 	//Admin
 	r.HandleFunc("/getIdCliente", controller.GetByIdCliente)
@@ -45,11 +46,12 @@ func main() {
 
 	r.HandleFunc("/loginAdmin", controller.GetLoginAdmin).Methods("GET")
 	r.HandleFunc("/loginAdmin", controller.PostLoginAdmin).Methods("POST")
-	
-	r.HandleFunc("/getAlugueis", controller.GetAluguel)
+
 	r.HandleFunc("/homeAdmin", controller.HomeAdmin)
 
-	r.HandleFunc("/cadastraCarro", controller.CadastraCarro)
+	//Aluguel
+	r.HandleFunc("/getAlugueis", controller.GetAlugueis).Methods("GET")
+	r.HandleFunc("/alugar", controller.AlugarCarro)
 
 	fmt.Println("Serivdor rodando porta 8080")
 	err = http.ListenAndServe(":8080", nil)
