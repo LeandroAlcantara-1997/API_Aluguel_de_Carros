@@ -69,6 +69,19 @@ func PostCadastraCliente(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+func DeletaCadastro(w http.ResponseWriter, r *http.Request) {
+	id := r.FormValue("id")
+	err := repository.DeletaCliente(id)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, err)
+		return 
+	}
+
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprint(w, "Cadastro deletado com sucesso")
+	return 
+}
 func GetLoginCliente(w http.ResponseWriter, r *http.Request) {
 	utils.ExecuteTemplate(w, "home.html", nil)
 }
