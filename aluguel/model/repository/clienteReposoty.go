@@ -102,22 +102,32 @@ func GetByIdCliente(id int) (entity.Cliente, error) {
 }
 
 func DeletaCliente(id string) (error) {
+	if err := DeleteAluguel(id); err != nil {
+		return err
+	}
+
+	if err := DeleteEndereco(id); err != nil {
+		return err
+	}
+
+	if err := DeleteContato(id); err != nil {
+		return err
+	}
+
+	if err := DeleteLogin(id); err != nil {
+		return err
+	}
+
 	db, err := OpenSQL()
 	if err != nil {
 		return fmt.Errorf("%v", err)
 	}
 
-	result, err := db.Exec("DELETE FROM cliente " +
-	"WHERE id = " + id + ";")
+	_ , err = db.Exec("DELETE FROM cliente " +
+	"WHERE id = '" + id + "';")
 	if err != nil {
 		return fmt.Errorf("Erro ao deletar cadastro ", err)
 	}
-	rows, err := result.RowsAffected()
-	if err != nil {
-		return fmt.Errorf("Erro ao retornar linhas afetadas ", err)
-	}
-	if rows != 1 {
-		return fmt.Errorf("Erro ao deletar cadastro ", err)
-	}
+
 	return nil
 }

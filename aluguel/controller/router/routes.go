@@ -14,7 +14,7 @@ func NewRouter() *mux.Router {
 	//Cliente
 	r.HandleFunc("/cliente/cadastro", rest.GetCadastraCliente).Methods("GET") //Template
 	r.HandleFunc("/cliente/cadastro", rest.PostCadastraCliente).Methods("POST")
-	r.HandleFunc("/cliente/deleta", rest.DeletaCadastro).Methods("DELETE")
+	r.HandleFunc("/cliente/delete", rest.DeletaCadastro).Methods("DELETE")
 	r.HandleFunc("/", rest.GetLoginCliente).Methods("GET") //Template
 	r.HandleFunc("/", rest.PostLoginCliente).Methods("POST")
 

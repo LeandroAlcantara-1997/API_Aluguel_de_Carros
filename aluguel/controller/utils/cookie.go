@@ -2,22 +2,12 @@ package controller
 
 import (
 	"fmt"
-	"html/template"
 	"net/http"
 
 	"github.com/gorilla/sessions"
 )
 
-var templates *template.Template
 var store = sessions.NewCookieStore([]byte("t0p-s3cr3t"))
-
-func LoadTemplates(path string) {
-	templates = template.Must(template.ParseGlob(path))
-}
-
-func ExecuteTemplate(w http.ResponseWriter, nameFile string, data interface{}) {
-	templates.ExecuteTemplate(w, nameFile, data)
-}
 
 func GeraCookie(r *http.Request, w http.ResponseWriter, username string) error {
 

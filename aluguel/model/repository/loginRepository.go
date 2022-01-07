@@ -95,3 +95,19 @@ func UpdateSenha(email, senha string) error {
 	}
 	return nil
 }
+
+func DeleteLogin(id string) error {
+	db, err := OpenSQL()
+	if err != nil {
+		return err
+	}
+
+	_ , err = db.Exec("DELETE FROM login " + 
+	"WHERE fk_cliente = '" + id + "';")
+
+	if err != nil {
+		return fmt.Errorf("Erro ao apagar login", err)
+	}
+
+	return nil
+}

@@ -83,6 +83,7 @@ func DeletaCadastro(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Cadastro deletado com sucesso")
 	return 
 }
+
 func GetLoginCliente(w http.ResponseWriter, r *http.Request) {
 	utils.ExecuteTemplate(w, "home.html", nil)
 }

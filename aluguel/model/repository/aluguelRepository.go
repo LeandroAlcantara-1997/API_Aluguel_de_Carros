@@ -82,3 +82,17 @@ func GetAlugueisCliente() ([]entity.Veiculo, error) {
 
 	return veiculos, nil
 }
+
+func DeleteAluguel(id string) error {
+	db, err := OpenSQL()
+	if err != nil {
+		return err
+	}
+	_ , err = db.Exec("DELETE FROM aluguel " +
+	"WHERE fk_cliente = '" + id + "';")
+	if err != nil {
+		return fmt.Errorf("Erro ao deletar alugueis", err)
+	}
+
+	return nil
+}

@@ -49,3 +49,18 @@ func InsertEndereco(c *entity.Cliente) error {
 	}
 	return nil
 }
+
+func DeleteEndereco(id string) error {
+	db, err := OpenSQL()
+	if err != nil {
+		return err
+	}
+
+	_ , err = db.Exec("DELETE FROM endereco " + 
+	"WHERE fk_cliente = '" + id + "';")
+	if err != nil {
+		return fmt.Errorf("Erro ao deletar endereco", err)
+	}
+
+	return nil
+}

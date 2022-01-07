@@ -34,3 +34,17 @@ func InsertContato(c *entity.Cliente) error {
 	}
 	return nil
 }
+
+func DeleteContato(id string) error {
+	db, err := OpenSQL()
+	if err != nil {
+		return err
+	}
+	_, err = db.Exec("DELETE FROM contato " +
+	"WHERE fk_cliente = '" + id + "';")
+	if err != nil {
+		return fmt.Errorf("Erro ao deletar contato: ", err)
+	}
+
+	return nil
+}

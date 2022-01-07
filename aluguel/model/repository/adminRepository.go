@@ -9,18 +9,15 @@ import (
 )
 
 func createAdmin(db *sql.DB) error {
-	_, err := db.Exec("CREATE TABLE IF NOT EXISTS admin(" +
+	if _, err := db.Exec("CREATE TABLE IF NOT EXISTS admin(" +
 		"user VARCHAR(5) NOT NULL," +
 		"senha VARCHAR(100), " +
 		"token VARCHAR(200)" +
-		")")
+		")"); err != nil {
+			log.Fatalf("Erro ao criar tabela Admin ", err)
+		}
 
-	if err != nil {
-		log.Fatalf("Erro ao criar tabela Admin ", err)
-	}
-
-	err = InsertAdmin(db)
-	if err != nil {
+	if err := InsertAdmin(db); err != nil {
 		log.Fatalf("Erro ao inserir", err)
 	}
 
@@ -44,7 +41,7 @@ func InsertAdmin(db *sql.DB) error {
 }
 
 func LogarAdmin(admin *entity.Admin) error {
-	db, err := OpenSQL()
+	db, err := OpenSQL(); 
 	if err != nil {
 		return fmt.Errorf("Erro open sql", err)
 	}
@@ -54,9 +51,9 @@ func LogarAdmin(admin *entity.Admin) error {
 	rows := db.QueryRow("SELECT token FROM admin " +
 		"WHERE token = '" + admin.Token + "';")
 
-	err = rows.Scan(&admin.Token)
-	if err != nil {
+	if err = rows.Scan(&admin.Token); err != nil {
 		return fmt.Errorf("Acesso negado", err)
 	}
+
 	return nil
 }
