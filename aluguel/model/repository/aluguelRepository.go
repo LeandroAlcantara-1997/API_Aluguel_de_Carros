@@ -4,14 +4,15 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/LeandroAlcantara-1997/model/entity"
 )
 
 func createAluguel(db *sql.DB) error {
 	_, err := db.Exec("CREATE TABLE IF NOT EXISTS aluguel(" +
-		"data_inicio TIMESTAMP, " +
-		"data_retorno TIMESTAMP, " +
+		"data_inicio DATETIME, " +
+		"data_retorno DATETIME, " +
 		"total DOUBLE, " +
 		"fk_veiculo INT, " +
 		"fk_cliente INT" +
@@ -37,7 +38,7 @@ func GetAlugueis() ([]entity.Aluguel, error) {
 	}
 
 	for rows.Next() {
-		err = rows.Scan(&aluguel.Data_Inicio, &aluguel.Data_Retorno, &aluguel.Valor_Total)
+		err = rows.Scan(&aluguel.Inicio, &aluguel.Retorno, &aluguel.Valor_Total)
 		if err != nil {
 			return nil, fmt.Errorf("Erro ao atribuir valores a struct aluguel")
 		}
@@ -83,13 +84,28 @@ func GetAlugueisCliente() ([]entity.Veiculo, error) {
 	return veiculos, nil
 }
 
+func InsertAluguel(aluguel entity.Aluguel) error {
+	db, err := OpenSQL()
+	if err != nil {
+		return err
+	}
+
+	_, err = db.Exec("INSERT INTO aluguel (fk_cliente, fk_veiculo, data_inicio, data_retorno) " +
+		"VALUES (" + strconv.Itoa(aluguel.Id_Cliente) + ", " + strconv.Itoa(aluguel.Id_Veiculo) + ", '" + aluguel.Inicio + "', '" + aluguel.Retorno + "');")
+
+	if err != nil {
+		return fmt.Errorf("Erro ao realizar insert na tabela aluguel: ", err)
+	}
+	return nil
+}
+
 func DeleteAluguel(id string) error {
 	db, err := OpenSQL()
 	if err != nil {
 		return err
 	}
-	_ , err = db.Exec("DELETE FROM aluguel " +
-	"WHERE fk_cliente = '" + id + "';")
+	_, err = db.Exec("DELETE FROM aluguel " +
+		"WHERE fk_cliente = '" + id + "';")
 	if err != nil {
 		return fmt.Errorf("Erro ao deletar alugueis", err)
 	}

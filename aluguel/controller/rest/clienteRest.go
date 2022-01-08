@@ -7,21 +7,21 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	utils "github.com/LeandroAlcantara-1997/controller/utils"
+	service "github.com/LeandroAlcantara-1997/controller/service"
 	"github.com/LeandroAlcantara-1997/model/email"
 	"github.com/LeandroAlcantara-1997/model/entity"
 	"github.com/LeandroAlcantara-1997/model/repository"
 )
 
 func HomeCliente(w http.ResponseWriter, r *http.Request) {
-	utils.ExecuteTemplate(w, "recuperarSenha.html", nil)
+	service.ExecuteTemplate(w, "recuperarSenha.html", nil)
 	veiculos, err := repository.GetCarrosCadastrados()
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, err)
 	}
 
-	utils.GetSecao(r)
+	service.GetSecao(r)
 	w.WriteHeader(http.StatusFound)
 	encoder := json.NewEncoder(w)
 	encoder.Encode(veiculos)
@@ -29,7 +29,7 @@ func HomeCliente(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetCadastraCliente(w http.ResponseWriter, r *http.Request) {
-	utils.ExecuteTemplate(w, "cadastroCliente.html", nil)
+	service.ExecuteTemplate(w, "cadastroCliente.html", nil)
 }
 
 func PostCadastraCliente(w http.ResponseWriter, r *http.Request) {
@@ -66,26 +66,24 @@ func PostCadastraCliente(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
-	http.Redirect(w, r, "/homeCliente", http.StatusFound)
-	return
+	http.Redirect(w, r, "/cliente/home", http.StatusFound)
 }
 
 func DeletaCadastro(w http.ResponseWriter, r *http.Request) {
 	id := r.FormValue("id")
+	fmt.Print("ID", id)
 	err := repository.DeletaCliente(id)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, err)
 		return 
 	}
-
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprint(w, "Cadastro deletado com sucesso")
-	return 
+	
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func GetLoginCliente(w http.ResponseWriter, r *http.Request) {
-	utils.ExecuteTemplate(w, "home.html", nil)
+	service.ExecuteTemplate(w, "home.html", nil)
 }
 
 func PostLoginCliente(w http.ResponseWriter, r *http.Request) {
@@ -99,19 +97,17 @@ func PostLoginCliente(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = utils.GeraCookie(r, w, email)
+	err = service.GeraCookie(r, w, email)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w, err)
 		return
 	}
-
-	http.Redirect(w, r, "/homeCliente", http.StatusFound)
-	return
+	http.Redirect(w, r, "/cliente/home", http.StatusFound)
 }
 
 func GetRestauraSenha(w http.ResponseWriter, r *http.Request) {
-	utils.ExecuteTemplate(w, "recuperarSenha.html", nil)
+	service.ExecuteTemplate(w, "recuperarSenha.html", nil)
 }
 
 func PostRestauraSenha(w http.ResponseWriter, r *http.Request) {

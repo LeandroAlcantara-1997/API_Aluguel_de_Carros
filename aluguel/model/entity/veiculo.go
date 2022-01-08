@@ -6,7 +6,7 @@ import (
 )
 
 type Veiculo struct {
-	Id         int64   `json:"omitempty"`
+	Id         int64   `json:"-"`
 	Modelo     string  `json:"modelo"`
 	Marca      string  `json:"marca"`
 	Ano        string  `json:"ano"`

@@ -4,15 +4,15 @@ import (
 	"fmt"
 	"time"
 
-	utils "github.com/LeandroAlcantara-1997/controller/utils"
+	service "github.com/LeandroAlcantara-1997/controller/service"
 )
 
 type Aluguel struct {
-	Id_Cliente   int    `json:"cliente`
-	Id_Veiculo   int    `json:"veiculo"`
-	Data_Inicio  string `json:"inicio`
-	Data_Retorno string `json:"retorno"`
-	Valor_Total  float64
+	Id_Cliente  int    `json:"cliente"`
+	Id_Veiculo  int    `json:"veiculo"`
+	Inicio      string `json:"inicio"`
+	Retorno     string `json:"retorno"`
+	Valor_Total float64
 }
 
 func CalculaTotal(veiculo Veiculo) (float64, error) {
@@ -20,12 +20,12 @@ func CalculaTotal(veiculo Veiculo) (float64, error) {
 }
 
 func (aluguel *Aluguel) verificaData() error {
-	inicio, err := utils.ValidaData(aluguel.Data_Inicio)
+	inicio, err := service.ValidaData(aluguel.Inicio)
 	if err != nil {
 		return fmt.Errorf("%#v", err)
 	}
 
-	retorno, err := utils.ValidaData(aluguel.Data_Retorno)
+	retorno, err := service.ValidaData(aluguel.Retorno)
 	if err != nil {
 		return fmt.Errorf("%#v", err)
 	}
@@ -39,7 +39,7 @@ func (aluguel *Aluguel) verificaData() error {
 		return fmt.Errorf("Data do retorno do aluguel deve ser futura a data atual")
 	}
 
-	if 	!inicio.Before(retorno) {
+	if !inicio.Before(retorno) {
 		return fmt.Errorf("Data do retorno do aluguel deve ser futura a data inicio")
 	}
 	return nil

@@ -7,7 +7,7 @@ import (
 	"time"
 	"unicode"
 
-	utils "github.com/LeandroAlcantara-1997/controller/utils"
+	service "github.com/LeandroAlcantara-1997/controller/service"
 )
 
 type Cliente struct {
@@ -88,7 +88,7 @@ func validaText(text string) bool {
 }
 
 func ValidaDataNascimento(date string) (string, error){
-	nasc, err := utils.ValidaData(date)
+	nasc, err := service.ValidaData(date)
 	if err != nil {
 		return "", fmt.Errorf("%#v", err)
 	}
@@ -112,7 +112,7 @@ func ValidaData(date string) (string, error) {
 		return "", fmt.Errorf("Erro ao parsear mes para int %v", err)
 	}
 
-	mes, err := utils.ValidaMes(m)
+	mes, err := service.ValidaMes(m)
 	if err != nil {
 		return "", fmt.Errorf("Error: %v", err)
 	}

@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	utils "github.com/LeandroAlcantara-1997/controller/utils"
+	service "github.com/LeandroAlcantara-1997/controller/service"
 	"github.com/LeandroAlcantara-1997/model/entity"
 	"github.com/LeandroAlcantara-1997/model/repository"
 )
@@ -17,7 +17,7 @@ func HomeAdmin(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetLoginAdmin(w http.ResponseWriter, r *http.Request) {
-	utils.ExecuteTemplate(w, "loginAdmin.html", nil)
+	service.ExecuteTemplate(w, "loginAdmin.html", nil)
 }
 
 func PostLoginAdmin(w http.ResponseWriter, r *http.Request) {
@@ -38,7 +38,7 @@ func PostLoginAdmin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, "/homeAdmin", http.StatusFound)
+	http.Redirect(w, r, "/admin/home", http.StatusFound)
 
 	return
 }
