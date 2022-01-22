@@ -53,6 +53,24 @@ func GetCarrosCadastrados() ([]entity.Veiculo, error) {
 	return veiculos, nil
 }
 
+func GetVeiculoById(id int64) (entity.Veiculo, error) {
+	var veiculo entity.Veiculo
+	db, err := OpenSQL()
+	if err != nil {
+		return veiculo, fmt.Errorf("%v", err)
+	}
+
+	rows := db.QueryRow("SELECT * FROM veiculo " +
+		"WHERE id = " + fmt.Sprintf("%d", id) + ";")
+
+		err = rows.Scan(&veiculo.Id, &veiculo.Marca, &veiculo.Modelo, &veiculo.Ano, &veiculo.Cor, &veiculo.Km_Litro, &veiculo.Valor_Dia, &veiculo.Valor_Hora)
+		if err != nil {
+			return veiculo, fmt.Errorf("Erro ao pegar dados do veiculo ", err)
+		}
+	
+	return veiculo, nil
+}
+
 func InsertVeiculo(veiculo *entity.Veiculo) error {
 	db, err := OpenSQL()
 	if err != nil {

@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"strconv"
 
 	"github.com/LeandroAlcantara-1997/model/entity"
 )
@@ -89,9 +88,10 @@ func InsertAluguel(aluguel entity.Aluguel) error {
 	if err != nil {
 		return err
 	}
-
-	_, err = db.Exec("INSERT INTO aluguel (fk_cliente, fk_veiculo, data_inicio, data_retorno) " +
-		"VALUES (" + strconv.Itoa(aluguel.Id_Cliente) + ", " + strconv.Itoa(aluguel.Id_Veiculo) + ", '" + aluguel.Inicio + "', '" + aluguel.Retorno + "');")
+	cliente := fmt.Sprintf("%d", aluguel.Id_Cliente)
+	veiculo := fmt.Sprintf("%d", aluguel.Id_Veiculo)
+	_, err = db.Exec("INSERT INTO aluguel (fk_cliente, fk_veiculo, data_inicio, data_retorno, total) " +
+		"VALUES (" + cliente + ", " + veiculo + ", '" + aluguel.Inicio + "', '" + aluguel.Retorno + "', " + fmt.Sprintf("%.2f", aluguel.Valor_Total) + ");")
 
 	if err != nil {
 		return fmt.Errorf("Erro ao realizar insert na tabela aluguel: ", err)

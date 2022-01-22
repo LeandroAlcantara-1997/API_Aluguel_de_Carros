@@ -25,6 +25,22 @@ func AlugarCarro(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Erro ao realizar unmarshal", err)
 		return
 	}
+	
+	
+	veiculo, err := repository.GetVeiculoById(aluguel.Id_Veiculo)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, "Erro ao retornar veiculo: ", err)
+		return
+	}
+	
+	err = aluguel.CalculaTotal(veiculo)
+	if err != nil{
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, "Erro ao calcular total: ", err)
+		return
+	}
+
 	err = repository.InsertAluguel(aluguel)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)

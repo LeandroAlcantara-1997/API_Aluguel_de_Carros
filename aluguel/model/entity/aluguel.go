@@ -2,21 +2,83 @@ package entity
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 	"time"
 
 	service "github.com/LeandroAlcantara-1997/controller/service"
 )
 
 type Aluguel struct {
-	Id_Cliente  int    `json:"cliente"`
-	Id_Veiculo  int    `json:"veiculo"`
+	Id_Cliente  int64  `json:"cliente"`
+	Id_Veiculo  int64  `json:"veiculo"`
 	Inicio      string `json:"inicio"`
 	Retorno     string `json:"retorno"`
 	Valor_Total float64
 }
 
-func CalculaTotal(veiculo Veiculo) (float64, error) {
-	return 0, nil
+func (aluguel *Aluguel) CalculaTotal(veiculo Veiculo) error {
+	inicio, err := StringToTime(aluguel.Inicio)
+	if err != nil {
+		return err
+	}
+	retorno, err := StringToTime(aluguel.Retorno)
+	if err != nil {
+		return err
+	}
+	totalDia := retorno.Day() - inicio.Day()
+	fmt.Println(totalDia)
+	total := veiculo.Valor_Dia * float64(totalDia)
+	fmt.Println(total)
+	aluguel.Valor_Total = total
+	fmt.Println(total)
+
+	return nil
+}
+
+func StringToTime(date string) (time.Time, error) {
+	dataFormat := strings.Split(date, "/")
+	dataHora := strings.Split(dataFormat[2], " ")
+	horaFormat := strings.Split(dataHora[1], ":")
+
+	ano, err := strconv.Atoi(dataFormat[0])
+	if err != nil {
+		return time.Time{}, fmt.Errorf("Erro ao converter ano: ", err)
+	}
+
+	mes, err := strconv.Atoi(dataFormat[1])
+	if err != nil {
+		return time.Time{}, fmt.Errorf("Erro ao converter mes: ", err)
+	}
+
+	dia, err := strconv.Atoi(dataHora[0])
+	if err != nil {
+		return time.Time{}, fmt.Errorf("Erro ao converter dia: ", err)
+	}
+
+	hora, err := strconv.Atoi(horaFormat[0])
+	if err != nil {
+		return time.Time{}, fmt.Errorf("Erro ao converter hora: ", err)
+	}
+
+	minuto, err := strconv.Atoi(horaFormat[1])
+	if err != nil {
+		return time.Time{}, fmt.Errorf("Erro ao converter minuto: ", err)
+	}
+
+	segundo, err := strconv.Atoi(horaFormat[2])
+	if err != nil {
+		return time.Time{}, fmt.Errorf("Erro ao converter segundo: ", err)
+	}
+
+	mesTime, err := service.ValidaMes(mes)
+	if err != nil {
+		return time.Time{}, err
+	}
+
+	tempoInicio := time.Date(ano, mesTime, dia, hora, minuto, segundo, 0, time.UTC)
+
+	return tempoInicio, nil
 }
 
 func (aluguel *Aluguel) verificaData() error {
