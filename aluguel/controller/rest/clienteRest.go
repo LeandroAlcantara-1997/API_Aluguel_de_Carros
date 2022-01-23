@@ -17,8 +17,7 @@ func HomeCliente(w http.ResponseWriter, r *http.Request) {
 	service.ExecuteTemplate(w, "recuperarSenha.html", nil)
 	veiculos, err := repository.GetCarrosCadastrados()
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, err)
+		service.ReponseError(w, 400, "Erro ao retornar veiculos", err)
 	}
 
 	service.GetSecao(r)
@@ -39,24 +38,24 @@ func PostCadastraCliente(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	var novocadastro entity.Cliente
-	err = json.Unmarshal(body, &novocadastro)
-	if err != nil {
+	
+	if err = json.Unmarshal(body, &novocadastro); err != nil {
 		service.ReponseError(w, 400, "Erro ao cadastrar cliente", err)
 		return
 	}
-	err = novocadastro.ValidaCliente()
-	if err != nil {
+	
+	if err = novocadastro.ValidaCliente(); err != nil {
 		service.ReponseError(w, 400, "Erro ao cadastrar cliente", err)
 		return
 	}
-	err = novocadastro.Contato.ValidaContato()
-	if err != nil {
+	
+	if err = novocadastro.Contato.ValidaContato(); err != nil {
 		service.ReponseError(w, 400, "Erro ao cadastrar cliente", err)
 		return
 	}
 
-	err = repository.InsertCliente(&novocadastro)
-	if err != nil {
+	
+	if err = repository.InsertCliente(&novocadastro); err != nil {
 		service.ReponseError(w, 400, "Erro ao cadastrar cliente", err)
 		return
 	}
@@ -66,9 +65,8 @@ func PostCadastraCliente(w http.ResponseWriter, r *http.Request) {
 
 func DeletaCadastro(w http.ResponseWriter, r *http.Request) {
 	id := r.FormValue("id")
-
-	err := repository.DeletaCliente(id)
-	if err != nil {
+	
+	if err := repository.DeletaCliente(id); err != nil {
 		service.ReponseError(w, 400, "Erro ao deletar cadastro", err )
 		return 
 	}
@@ -84,14 +82,14 @@ func PostLoginCliente(w http.ResponseWriter, r *http.Request) {
 	email := r.FormValue("email")
 	senha := r.FormValue("senha")
 
-	err := repository.Logar(email, senha)
-	if err != nil {
+	
+	if err := repository.Logar(email, senha); err != nil {
 		service.ReponseError(w, 401, "Login inválido", err )
 		return
 	}
 
-	err = service.GeraCookie(r, w, email)
-	if err != nil {
+	
+	if err := service.GeraCookie(r, w, email); err != nil {
 		service.ReponseError(w, 400, "Erro ao gerar cookie", err )
 		return
 	}
@@ -104,21 +102,20 @@ func GetRestauraSenha(w http.ResponseWriter, r *http.Request) {
 
 func PostRestauraSenha(w http.ResponseWriter, r *http.Request) {
 	emailvalue := r.FormValue("email")
-	err := repository.GetEmailToSenha(emailvalue)
-	if err != nil {
+	
+	if err := repository.GetEmailToSenha(emailvalue); err != nil {
 		service.ReponseError(w, 400, "Erro adquirir email", err )
 		return
 	}
 
-	err = email.RecuperarSenha(emailvalue)
-	if err != nil {
+	
+	if err := email.RecuperarSenha(emailvalue); err != nil {
 		service.ReponseError(w, 400, "Erro ao recuperar senha", err )
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprint(w, "Enviado com sucesso")
-	return
 
 }
 

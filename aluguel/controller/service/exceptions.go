@@ -12,6 +12,7 @@ type Exception struct {
 }
 
 func ReponseError(w http.ResponseWriter, status int, mensagem string, err error) {
+	w.Header().Set("Content-Type", "application/json")
 	var request = Exception{
 		Status:   status,
 		Mensagem: mensagem,
