@@ -7,14 +7,14 @@ services:
       dockerfile: Dockerfile-go
     container_name: app_go
     volumes:
-      - ./:/go/src
+      - .:/go/src
     ports:
       - "8080:8080"
     #command: go run main.go
-    #depends_on:
-    #  - mysql-db
+    depends_on:
+      - mysql-db
   mysql-db:
-    restart: "on-failure"
+    restart: always
     build: 
       context: .
       dockerfile: mysql.Dockerfile
@@ -22,8 +22,8 @@ services:
     volumes:
       - ./mysql-data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSSWORD: "root"
-      #MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      #MYSQL_ROOT_PASSSWORD: "root"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       #MYSQL_USER: "root"
       #MYSQL_PASSWORD: "senha"
       MYSQL_DATABASE: "aluguel_veiculo"

@@ -2,10 +2,10 @@
 
 ## Tecnologias utilizadas no Backend
 
-<abbr title="Golang"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg" alt="Logo Golang" width="40px" height="40px"></abbr>
-<abbr title="MySQL"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-plain.svg" alt="Logo MySQL" width="40px" height="40px"></abbr>
-<abbr title="Postman"><img src="https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg" alt="Logo Postman" width="40px" height="40px"></abbr>
-
+* MySQL 5.7
+* Golang 1.17
+* Docker 20.10.7
+* Postman
 
 ## Executando build com CompileDaemon
 
@@ -20,6 +20,23 @@ C:\Users\leand\go\bin\CompileDaemon -command="./LeandroAlcantara-1997"
 ## Foi utilizado no projeto:
 
 * Arquitetura MVC (Model, View, Controller)
-* Persistencia de dados com DAO (Data access object) 
+* Persistência de dados com DAO (Data access object) 
+* Conteinerização com Docker
 
-## Tecnologias utilizadas no Front-end
+
+# Instruções básicas para executar os containers
+
+## Constrói as imagens da aplicação e do MySQL
+~~~docker
+docker-compose up -d --build
+~~~
+
+## Necessário acessar o bash da aplicação
+~~~docker 
+docker-compose exec app bash
+~~~
+
+## Executar dentro do bash o comando para rodar a aplicação
+~~~golang
+go run main.go
+~~~

@@ -9,7 +9,7 @@ import (
 
 func OpenSQL() (*sql.DB, error) {
 	var db *sql.DB
-	db, err := sql.Open("mysql", "root:Arthur08102019!@tcp(localhost:3306)/aluguel_veiculos")
+	db, err := sql.Open("mysql", "root@tcp(mysql-db:3306)/aluguel_veiculo")
 	if err != nil {
 		log.Fatal(err)
 	}
