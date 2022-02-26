@@ -5,9 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	routes "github.com/LeandroAlcantara-1997/controller/router"
-	service "github.com/LeandroAlcantara-1997/controller/service"
-	"github.com/LeandroAlcantara-1997/model/repository"
+	routes "github.com/LeandroAlcantara-1997/router"
+	"github.com/LeandroAlcantara-1997/repository"
 )
 
 func main() {
@@ -15,7 +14,7 @@ func main() {
 	http.Handle("/", r)
 
 	//Cria as tabelas assim que o programa é executado
-	service.LoadTemplates("view/*.html")
+
 	err := repository.CreateTables()
 	if err != nil {
 		log.Fatal(err)
