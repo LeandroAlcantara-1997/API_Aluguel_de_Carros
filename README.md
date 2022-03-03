@@ -33,10 +33,5 @@ docker-compose up -d --build
 
 ## Necessário acessar o bash da aplicação
 ~~~docker 
-docker-compose exec app bash
-~~~
-
-## Executar dentro do bash o comando para rodar a aplicação
-~~~golang
-go run main.go
+docker-compose up -d
 ~~~

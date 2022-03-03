@@ -11,7 +11,7 @@ import (
 
 func main() {
 	r := routes.NewRouter()
-	http.Handle("/", r)
+	//http.Handle("/", r)
 
 	//Cria as tabelas assim que o programa é executado
 
@@ -21,7 +21,7 @@ func main() {
 	}
 
 	fmt.Println("Serivdor rodando porta 8080")
-	err = http.ListenAndServe(":8080", nil)
+	err = http.ListenAndServe(":8080", r)
 	if err != nil {
 		log.Fatal("Erro ao rodar servidor ", err)
 	}
