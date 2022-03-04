@@ -35,7 +35,7 @@ func GetCarrosCadastrados() ([]entity.Veiculo, error) {
 	}
 	rows, err := db.Query("SELECT * FROM veiculo;")
 	if err != nil {
-		return nil, fmt.Errorf("Erro ao executar select para a tabela veiculos", err)
+		return nil, fmt.Errorf("Erro ao executar select para a tabela veiculos %#v", err)
 	}
 
 	for rows.Next() {
@@ -65,7 +65,7 @@ func GetVeiculoById(id int64) (entity.Veiculo, error) {
 
 		err = rows.Scan(&veiculo.Id, &veiculo.Marca, &veiculo.Modelo, &veiculo.Ano, &veiculo.Cor, &veiculo.Km_Litro, &veiculo.Valor_Dia, &veiculo.Valor_Hora)
 		if err != nil {
-			return veiculo, fmt.Errorf("Erro ao pegar dados do veiculo ", err)
+			return veiculo, fmt.Errorf("Erro ao pegar dados do veiculo %#v", err)
 		}
 	
 	return veiculo, nil
@@ -81,7 +81,7 @@ func InsertVeiculo(veiculo *entity.Veiculo) error {
 		veiculo.Cor + "'," + fmt.Sprintf("%f", veiculo.Km_Litro) + "," + fmt.Sprintf("%f", veiculo.Valor_Dia) + ", " +
 		fmt.Sprintf("%f", veiculo.Valor_Hora) + ");")
 	if err != nil {
-		return fmt.Errorf("Erro ao executar insert veiculo ", err)
+		return fmt.Errorf("Erro ao executar insert veiculo %#v", err)
 	}
 	veiculo.Id, err = result.LastInsertId()
 	if err != nil {

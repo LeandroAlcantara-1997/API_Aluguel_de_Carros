@@ -7,16 +7,6 @@
 * Docker 20.10.7
 * Postman
 
-## Executando build com CompileDaemon
-
-~~~Linux
-$HOME/go/bin/CompileDaemon -command="./LeandroAlcantara-1997"
-~~~
-
-~~~Windows
-C:\Users\leand\go\bin\CompileDaemon -command="./LeandroAlcantara-1997"
-~~~
-
 ## Foi utilizado no projeto:
 
 * Arquitetura MVC (Model, View, Controller)
@@ -24,11 +14,23 @@ C:\Users\leand\go\bin\CompileDaemon -command="./LeandroAlcantara-1997"
 * Conteinerização com Docker
 
 
-# Instruções básicas para executar os containers
+## Instruções básicas para executar os containers
 
-## Constrói as imagens da aplicação e sobe os containers
-### Necessário esperar até que o MySQL suba para fazer requisições
+### Constrói as imagens da aplicação e sobe os containers
+#### * Necessário esperar até que o MySQL suba para fazer requisições
 ~~~docker
 docker-compose up --build
+~~~
+
+## Caso queira entra no bash do serviço 
+
+~~~docker
+docker-compose exec <servico> bash
+~~~
+
+## Parar os serviços
+
+~~~docker
+docker-compose stop
 ~~~
 

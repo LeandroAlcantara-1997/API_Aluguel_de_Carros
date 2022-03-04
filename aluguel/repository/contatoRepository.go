@@ -43,7 +43,7 @@ func DeleteContato(id string) error {
 	_, err = db.Exec("DELETE FROM contato " +
 	"WHERE fk_cliente = '" + id + "';")
 	if err != nil {
-		return fmt.Errorf("Erro ao deletar contato: ", err)
+		return fmt.Errorf("Erro ao deletar contato: %#v", err)
 	}
 
 	return nil

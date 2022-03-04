@@ -49,7 +49,7 @@ func GetEmailToSenha(email string) error {
 	fmt.Print(rows)
 	err = rows.Scan(&log.Email)
 	if err != nil {
-		return fmt.Errorf("Email não cadastrado", err)
+		return fmt.Errorf("Email não cadastrado %#v", err)
 	}
 
 	return nil
@@ -72,7 +72,7 @@ func Logar(email, senha string) error {
 
 	err = rows.Scan(&log.Token)
 	if err != nil {
-		return fmt.Errorf("Acesso negado", err)
+		return fmt.Errorf("Acesso negado %#v", err)
 	}
 
 	return nil
@@ -106,7 +106,7 @@ func DeleteLogin(id string) error {
 	"WHERE fk_cliente = '" + id + "';")
 
 	if err != nil {
-		return fmt.Errorf("Erro ao apagar login", err)
+		return fmt.Errorf("Erro ao apagar login %#v", err)
 	}
 
 	return nil

@@ -18,7 +18,7 @@ func createAluguel(db *sql.DB) error {
 		");")
 
 	if err != nil {
-		log.Fatalf("Erro ao criar tabela aluguel ", err)
+		log.Fatalf("Erro ao criar tabela aluguel %#v", err)
 	}
 
 	return nil
@@ -33,7 +33,7 @@ func GetAlugueis() ([]entity.Aluguel, error) {
 	}
 	rows, err := db.Query("SELECT * FROM aluguel")
 	if err != nil {
-		return nil, fmt.Errorf("Erro ao executar select para a tabela alugueis", err)
+		return nil, fmt.Errorf("Erro ao executar select para a tabela alugueis %#v", err)
 	}
 
 	for rows.Next() {
@@ -64,7 +64,7 @@ func GetAlugueisCliente() ([]entity.Veiculo, error) {
 		"INNER JOIN aluguel " +
 		"ON veiculo.id = aluguel.fk_veiculo;")
 	if err != nil {
-		return nil, fmt.Errorf("Erro ao executar select para a tabela alugueis", err)
+		return nil, fmt.Errorf("Erro ao executar select para a tabela alugueis %#v", err)
 	}
 
 	for rows.Next() {
@@ -94,7 +94,7 @@ func InsertAluguel(aluguel entity.Aluguel) error {
 		"VALUES (" + cliente + ", " + veiculo + ", '" + aluguel.Inicio + "', '" + aluguel.Retorno + "', " + fmt.Sprintf("%.2f", aluguel.Valor_Total) + ");")
 
 	if err != nil {
-		return fmt.Errorf("Erro ao realizar insert na tabela aluguel: ", err)
+		return fmt.Errorf("Erro ao realizar insert na tabela aluguel: %#v", err)
 	}
 	return nil
 }
@@ -107,7 +107,7 @@ func DeleteAluguel(id string) error {
 	_, err = db.Exec("DELETE FROM aluguel " +
 		"WHERE fk_cliente = '" + id + "';")
 	if err != nil {
-		return fmt.Errorf("Erro ao deletar alugueis", err)
+		return fmt.Errorf("Erro ao deletar alugueis %#v", err)
 	}
 
 	return nil

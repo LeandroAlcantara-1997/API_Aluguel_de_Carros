@@ -14,20 +14,6 @@ import (
 	"github.com/LeandroAlcantara-1997/repository"
 )
 
-func HomeCliente(w http.ResponseWriter, r *http.Request) {
-	veiculos, err := repository.GetCarrosCadastrados()
-	if err != nil {
-		service.ReponseError(w, 400, "Erro ao retornar veiculos", err)
-	}
-
-	service.GetSecao(r)
-	w.WriteHeader(http.StatusFound)
-	encoder := json.NewEncoder(w)
-	encoder.Encode(veiculos)
-	
-}
-
-
 func PostCadastraCliente(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {

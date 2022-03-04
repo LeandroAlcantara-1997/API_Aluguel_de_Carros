@@ -59,7 +59,7 @@ func DeleteEndereco(id string) error {
 	_ , err = db.Exec("DELETE FROM endereco " + 
 	"WHERE fk_cliente = '" + id + "';")
 	if err != nil {
-		return fmt.Errorf("Erro ao deletar endereco", err)
+		return fmt.Errorf("Erro ao deletar endereco %#v", err)
 	}
 
 	return nil

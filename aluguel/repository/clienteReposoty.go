@@ -38,7 +38,7 @@ func InsertCliente(cliente *entity.Cliente) error {
 
 	cliente.Id, err = result.LastInsertId()
 	if err != nil {
-		return fmt.Errorf("Erro ao recuperar ultimo id ", err)
+		return fmt.Errorf("Erro ao recuperar ultimo id %#v", err)
 	}
 
 	err = InsertLogin(cliente)
@@ -64,12 +64,12 @@ func GetClientesCadastrados() ([]entity.Cliente, error) {
 	var clientes []entity.Cliente
 	db, err := OpenSQL()
 	if err != nil {
-		return nil, fmt.Errorf("", err)
+		return nil, fmt.Errorf("%#v", err)
 	}
 
 	rows, err := db.Query("SELECT id, nome, sobrenome, dataNascimento, rg, cpf, cnh FROM cliente;")
 	if err != nil {
-		return nil, fmt.Errorf("Erro ao executar select na tabela cleinte: ", err)
+		return nil, fmt.Errorf("Erro ao executar select na tabela cleinte: %#v", err)
 	}
 
 	for rows.Next() {
@@ -95,7 +95,7 @@ func GetByIdCliente(id int) (entity.Cliente, error) {
 
 	err = rows.Scan(&cliente.Nome, &cliente.Sobrenome, &cliente.Data_Nascimento, &cliente.RG, &cliente.CPF, &cliente.CNH)
 	if err != nil {
-		return cliente, fmt.Errorf("Erro ao pegar dados do cliente ", err)
+		return cliente, fmt.Errorf("Erro ao pegar dados do cliente %#v", err)
 	}
 
 	return cliente, nil
@@ -126,7 +126,7 @@ func DeletaCliente(id string) (error) {
 	_ , err = db.Exec("DELETE FROM cliente " +
 	"WHERE id = '" + id + "';")
 	if err != nil {
-		return fmt.Errorf("Erro ao deletar cadastro ", err)
+		return fmt.Errorf("Erro ao deletar cadastro %#v", err)
 	}
 
 	return nil

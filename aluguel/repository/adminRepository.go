@@ -14,11 +14,11 @@ func createAdmin(db *sql.DB) error {
 		"senha VARCHAR(100), " +
 		"token VARCHAR(200)" +
 		")"); err != nil {
-			log.Fatalf("Erro ao criar tabela Admin ", err)
+			log.Fatalf("Erro ao criar tabela Admin %#v", err)
 		}
 
 	if err := InsertAdmin(db); err != nil {
-		log.Fatalf("Erro ao inserir", err)
+		log.Fatalf("Erro ao inserir %#v", err)
 	}
 
 	return nil
@@ -27,13 +27,13 @@ func createAdmin(db *sql.DB) error {
 func InsertAdmin(db *sql.DB) error {
 	token, err := entity.GeraToken("admin" + "admin123456")
 	if err != nil {
-		log.Fatalf("Erro ao gerar token", err)
+		log.Fatalf("Erro ao gerar token %#v", err)
 	}
 	_, err = db.Exec("INSERT INTO admin(user, token )" +
 		"VALUES ('" + "admin" +
 		"' , '" + token + "')")
 	if err != nil {
-		log.Fatalf("Erro ao inserir admin ", err)
+		log.Fatalf("Erro ao inserir admin %#v", err)
 	}
 
 	return nil
@@ -42,7 +42,7 @@ func InsertAdmin(db *sql.DB) error {
 func LogarAdmin(admin *entity.Admin) error {
 	db, err := OpenSQL(); 
 	if err != nil {
-		return fmt.Errorf("Erro open sql", err)
+		return fmt.Errorf("Erro open sql %#v", err)
 	}
 
 	fmt.Println(admin.Token)
@@ -51,7 +51,7 @@ func LogarAdmin(admin *entity.Admin) error {
 		"WHERE token = '" + admin.Token + "';")
 
 	if err = rows.Scan(&admin.Token); err != nil {
-		return fmt.Errorf("Acesso negado", err)
+		return fmt.Errorf("Acesso negado %#v", err)
 	}
 
 	return nil

@@ -30,7 +30,8 @@ func PostLoginAdmin(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusAccepted)
 }
 
-func GetByIdCliente(w http.ResponseWriter, r *http.Request) {
+func GetClienteById(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	value := r.FormValue("id")
 	id, err := strconv.Atoi(value)
 	if err != nil {
@@ -48,6 +49,7 @@ func GetByIdCliente(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetClientesCadastrados(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	clientes, err := repository.GetClientesCadastrados()
 	if err != nil {
 		service.ReponseError(w, 400, "Erro ao retornar cliente", err)
@@ -60,6 +62,7 @@ func GetClientesCadastrados(w http.ResponseWriter, r *http.Request) {
 }
 
 func CadastraCarro(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	modelo := r.FormValue("modelo")
 	marca := r.FormValue("marca")
 	ano := r.FormValue("ano")

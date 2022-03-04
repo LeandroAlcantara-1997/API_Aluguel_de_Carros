@@ -6,9 +6,9 @@ import (
 )
 
 type Admin struct {
-	User  string `json:"user"`
-	Senha string `json:"senha"`
-	Token string
+	User  string `json:"-"`
+	Senha string `json:"-"`
+	Token string `json:"-"`
 }
 
 type Login struct {
