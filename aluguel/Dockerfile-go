@@ -1,14 +1,3 @@
 FROM golang:1.17
 WORKDIR /go/src
 ADD . /go/src/
-
-
-#RUN go get github.com/go-sql-driver/mysql
-#RUN go get github.com/gorilla/mux 
-#RUN go get gopkg.in/mail.v2
-#RUN go get github.com/gorilla/sessions 
-#RUN	go get gopkg.in/alexcesaro/quotedprintable.v3
-#RUN go get github.com/gorilla/securecookie 
-#RUN	go get golang.org/x/crypto
-
-#CMD [ "tail", "-f", "/dev/null" ]

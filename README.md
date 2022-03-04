@@ -26,12 +26,9 @@ C:\Users\leand\go\bin\CompileDaemon -command="./LeandroAlcantara-1997"
 
 # Instruções básicas para executar os containers
 
-## Constrói as imagens da aplicação e do MySQL
+## Constrói as imagens da aplicação e sobe os containers
+### Necessário esperar até que o MySQL suba para fazer requisições
 ~~~docker
-docker-compose up -d --build
+docker-compose up --build
 ~~~
 
-## Necessário acessar o bash da aplicação
-~~~docker 
-docker-compose up -d
-~~~
