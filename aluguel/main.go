@@ -11,10 +11,8 @@ import (
 
 func main() {
 	r := routes.NewRouter()
-	//http.Handle("/", r)
 
 	//Cria as tabelas assim que o programa é executado
-
 	err := repository.CreateTables()
 	if err != nil {
 		log.Fatal(err)
@@ -26,4 +24,12 @@ func main() {
 		log.Fatal("Erro ao rodar servidor ", err)
 	}
 
+}
+
+func soma(i ...int) int {
+	var total int
+	for _, v := range  i {
+		total += v
+	}
+	return total
 }

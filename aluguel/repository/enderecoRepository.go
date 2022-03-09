@@ -37,13 +37,14 @@ func InsertEndereco(c *entity.Cliente) error {
 	if err != nil {
 		return fmt.Errorf("%v", err)
 	}
-	_, err = db.Exec("INSERT INTO endereco (fk_estado, cidade, bairro, logradouro, rua, numero, complemento, fk_cliente) VALUES ('" + fmt.Sprint(idEstado) + "', '" + c.Endereco.Cidade + "', '" + c.Endereco.Bairro + "', '" + c.Endereco.Logradouro + "', '" + c.Endereco.Rua + "', '" + c.Endereco.Numero + "', '" + c.Endereco.Complemento + "', '" + fmt.Sprint(c.Id) + "');")
-
+	result, err := db.Exec("INSERT INTO endereco (fk_estado, cidade, bairro, logradouro, rua, numero, complemento, fk_cliente) VALUES ('" + fmt.Sprint(idEstado) + "', '" + c.Endereco.Cidade + "', '" + c.Endereco.Bairro + "', '" + c.Endereco.Logradouro + "', '" + c.Endereco.Rua + "', '" + c.Endereco.Numero + "', '" + c.Endereco.Complemento + "', '" + fmt.Sprint(c.Id) + "');")
 	if err != nil {
 		return fmt.Errorf("Error ao fazer insert endereco %v", err)
 	}
 
-	err = InsertEstado(c.Endereco)
+	c.Endereco.Id, err = result.LastInsertId()
+
+	err = InsertEstado(&c.Endereco)
 	if err != nil {
 		return fmt.Errorf("%#v", err)
 	}

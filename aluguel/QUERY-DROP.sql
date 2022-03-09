@@ -1,5 +1,4 @@
 USE aluguel_veiculo;
-SELECT * FROM cliente;
 
 DROP TABLE aluguel;
 DROP TABLE veiculo;

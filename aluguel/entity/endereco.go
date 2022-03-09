@@ -3,7 +3,7 @@ package entity
 import "fmt"
 
 type Endereco struct {
-	id          int
+	Id          int64  `json:"-"`
 	Estado      Estado `json:"estado"`
 	Cidade      string `json:"cidade"`
 	Bairro      string `json:"bairro"`
@@ -14,7 +14,7 @@ type Endereco struct {
 }
 
 type Estado struct {
-	Id   int
+	Id   int64  `json:"-"`
 	Nome string `json:"nome"`
 	Pais string `json:"pais"` //BRASIL
 }

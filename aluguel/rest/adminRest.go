@@ -9,20 +9,20 @@ import (
 	"github.com/LeandroAlcantara-1997/entity"
 	"github.com/LeandroAlcantara-1997/repository"
 	service "github.com/LeandroAlcantara-1997/service"
+	"github.com/gorilla/mux"
 )
 
 func PostLoginAdmin(w http.ResponseWriter, r *http.Request) {
 	var admin entity.Admin
 	admin.User = r.FormValue("user")
 	admin.Senha = r.FormValue("senha")
-	err := admin.ValidaAdmin()
-	if err != nil {
+	
+	if err := admin.ValidaAdmin(); err != nil {
 		service.ReponseError(w, 401, "Erro ao validar admin", err)
 		return
 	}
-
-	err = repository.LogarAdmin(&admin)
-	if err != nil {
+	
+	if err := repository.LogarAdmin(&admin); err != nil {
 		service.ReponseError(w, 400, "Erro ao validar admin", err)
 		return
 	}
@@ -32,13 +32,9 @@ func PostLoginAdmin(w http.ResponseWriter, r *http.Request) {
 
 func GetClienteById(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	value := r.FormValue("id")
-	id, err := strconv.Atoi(value)
-	if err != nil {
-		service.ReponseError(w, 400, "Erro ao converter parametro id para int", err)
-		return
-	}
-	cliente, err := repository.GetByIdCliente(id)
+	id := mux.Vars(r)
+	
+	cliente, err := repository.GetByIdCliente(id["id"])
 	if err != nil {
 		service.ReponseError(w, 400, "Erro ao consultar cliente", err)
 		return
@@ -106,10 +102,12 @@ func CadastraCarro(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusAccepted)
-	fmt.Fprint(w, "Carro cadastrado com sucesso!", veiculo)
+	encoder := json.NewEncoder(w)
+	encoder.Encode(veiculo)
 }
 
 func GetCarrosCadastrados(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	veiculos, err := repository.GetCarrosCadastrados()
 	if err != nil {
 		service.ReponseError(w, 400, "Erro ao retonar carros", err)

@@ -11,6 +11,7 @@ import (
 )
 
 func AlugarCarro(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	var aluguel entity.Aluguel
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {

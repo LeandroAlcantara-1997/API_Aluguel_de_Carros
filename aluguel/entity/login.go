@@ -7,14 +7,14 @@ import (
 
 type Admin struct {
 	User  string `json:"-"`
-	Senha string `json:"-"`
+	Senha string `json:"senha"`
 	Token string `json:"-"`
 }
 
 type Login struct {
-	Email string
+	Email string `json:"-"`
 	Senha string `json:"senha"`
-	Token string
+	Token string `json:"-"`
 }
 
 func (a *Admin) ValidaAdmin() error {
@@ -26,7 +26,7 @@ func (a *Admin) ValidaAdmin() error {
 	token, err := GeraToken(a.User + a.Senha)
 	a.Token = string(token)
 	if err != nil {
-		return fmt.Errorf("Erro ao criar token admin ", err)
+		return fmt.Errorf("Erro ao criar token admin %#v", err)
 	}
 
 	return nil

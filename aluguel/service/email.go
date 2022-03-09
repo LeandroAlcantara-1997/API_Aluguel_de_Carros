@@ -31,7 +31,7 @@ func RecuperarSenha(email string) error {
 	// Assunto
 	m.SetHeader("Subject", "Recuperacao de senha")
 
-	// corpo da mensagem
+	// Corpo da mensagem
 	m.SetBody("text/plain", senha)
 
 	// Configuracao de conta

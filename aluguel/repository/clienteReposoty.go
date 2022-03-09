@@ -19,6 +19,7 @@ func createCliente(db *sql.DB) error {
 		"cnh VARCHAR(10) UNIQUE, " +
 		"PRIMARY KEY(id)" +
 		");")
+
 	if err != nil {
 		log.Fatalf("Erro ao criar tabela cliente %v ", err)
 	}
@@ -83,7 +84,7 @@ func GetClientesCadastrados() ([]entity.Cliente, error) {
 	return clientes, nil
 }
 
-func GetByIdCliente(id int) (entity.Cliente, error) {
+func GetByIdCliente(id string) (entity.Cliente, error) {
 	var cliente entity.Cliente
 
 	db, err := OpenSQL()
@@ -91,11 +92,11 @@ func GetByIdCliente(id int) (entity.Cliente, error) {
 		return cliente, fmt.Errorf("%v", err)
 	}
 
-	rows := db.QueryRow("SELECT nome, sobrenome, dataNascimento, rg, cpf, cnh FROM 	cliente " + "WHERE id= " + fmt.Sprint(id) + ";")
+	rows := db.QueryRow("SELECT id, nome, sobrenome, dataNascimento, rg, cpf, cnh FROM 	cliente " + "WHERE id= " + id + ";")
 
-	err = rows.Scan(&cliente.Nome, &cliente.Sobrenome, &cliente.Data_Nascimento, &cliente.RG, &cliente.CPF, &cliente.CNH)
+	err = rows.Scan(&cliente.Id, &cliente.Nome, &cliente.Sobrenome, &cliente.Data_Nascimento, &cliente.RG, &cliente.CPF, &cliente.CNH)
 	if err != nil {
-		return cliente, fmt.Errorf("Erro ao pegar dados do cliente %#v", err)
+		return cliente, fmt.Errorf("Erro ao pegar dados do cliente")
 	}
 
 	return cliente, nil

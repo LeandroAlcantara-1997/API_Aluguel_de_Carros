@@ -28,7 +28,7 @@ func GetSecao(r *http.Request) error {
 	// grab the session
 	session, err := store.Get(r, "session")
 	if err != nil {
-		return fmt.Errorf("Erro ao pegar seção, ", err)
+		return fmt.Errorf("Erro ao pegar seção %#v", err)
 	}
 	// grab the username from the session object
 	untyped, ok := session.Values["username"]

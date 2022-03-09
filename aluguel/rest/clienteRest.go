@@ -6,7 +6,7 @@ import (
 
 	"io/ioutil"
 	"net/http"
-
+	"github.com/gorilla/mux"
 	service "github.com/LeandroAlcantara-1997/service"
 
 
@@ -50,9 +50,12 @@ func PostCadastraCliente(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeletaCadastro(w http.ResponseWriter, r *http.Request) {
-	id := r.FormValue("id")
-	
-	if err := repository.DeletaCliente(id); err != nil {
+	id := mux.Vars(r)
+	fmt.Println(id["id"])
+
+	//id1 := r.FormValue("id")
+	//fmt.Println(id1)
+	if err := repository.DeletaCliente(id["id"]); err != nil {
 		service.ReponseError(w, 400, "Erro ao deletar cadastro", err )
 		return 
 	}

@@ -43,32 +43,32 @@ func StringToTime(date string) (time.Time, error) {
 
 	ano, err := strconv.Atoi(dataFormat[0])
 	if err != nil {
-		return time.Time{}, fmt.Errorf("Erro ao converter ano: ", err)
+		return time.Time{}, fmt.Errorf("Erro ao converter ano: %#v", err)
 	}
 
 	mes, err := strconv.Atoi(dataFormat[1])
 	if err != nil {
-		return time.Time{}, fmt.Errorf("Erro ao converter mes: ", err)
+		return time.Time{}, fmt.Errorf("Erro ao converter mes: %#v", err)
 	}
 
 	dia, err := strconv.Atoi(dataHora[0])
 	if err != nil {
-		return time.Time{}, fmt.Errorf("Erro ao converter dia: ", err)
+		return time.Time{}, fmt.Errorf("Erro ao converter dia: %#v", err)
 	}
 
 	hora, err := strconv.Atoi(horaFormat[0])
 	if err != nil {
-		return time.Time{}, fmt.Errorf("Erro ao converter hora: ", err)
+		return time.Time{}, fmt.Errorf("Erro ao converter hora: %#v", err)
 	}
 
 	minuto, err := strconv.Atoi(horaFormat[1])
 	if err != nil {
-		return time.Time{}, fmt.Errorf("Erro ao converter minuto: ", err)
+		return time.Time{}, fmt.Errorf("Erro ao converter minuto: %#v", err)
 	}
 
 	segundo, err := strconv.Atoi(horaFormat[2])
 	if err != nil {
-		return time.Time{}, fmt.Errorf("Erro ao converter segundo: ", err)
+		return time.Time{}, fmt.Errorf("Erro ao converter segundo: %#v", err)
 	}
 
 	mesTime, err := utils.ValidaMes(mes)

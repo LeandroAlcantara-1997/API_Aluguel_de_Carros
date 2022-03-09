@@ -72,7 +72,7 @@ func Logar(email, senha string) error {
 
 	err = rows.Scan(&log.Token)
 	if err != nil {
-		return fmt.Errorf("Acesso negado %#v", err)
+		return fmt.Errorf("Acesso negado")
 	}
 
 	return nil
