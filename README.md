@@ -1,6 +1,9 @@
 # API de Aluguel de Carros
 
-## Tecnologias utilizadas no Backend
+
+Essa API tem a finalidade de 
+
+## Tecnologias utilizadas:
 
 * MySQL 5.7
 * Golang 1.17
@@ -22,7 +25,7 @@
 docker-compose up --build
 ~~~
 
-## Caso queira entra no bash do serviço 
+## Para entrar no bash do serviço 
 
 ~~~docker
 docker-compose exec <servico> bash
@@ -34,3 +37,15 @@ docker-compose exec <servico> bash
 docker-compose stop
 ~~~
 
+## Importe os testes feitos no Postman:
+~~~postman
+https://www.getpostman.com/collections/4109e9233a3533e109e0
+~~~
+
+# Autor
+
+## Linkedin
+https://www.linkedin.com/in/leandro-alcantara-pro
+
+## Email
+leandro1997silva@gmail.com

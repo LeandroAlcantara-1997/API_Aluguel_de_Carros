@@ -1,5 +1,4 @@
 USE aluguel_veiculo;
-
 DROP TABLE aluguel;
 DROP TABLE veiculo;
 DROP TABLE login;

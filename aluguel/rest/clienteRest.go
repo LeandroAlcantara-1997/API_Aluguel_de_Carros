@@ -53,8 +53,6 @@ func DeletaCadastro(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)
 	fmt.Println(id["id"])
 
-	//id1 := r.FormValue("id")
-	//fmt.Println(id1)
 	if err := repository.DeletaCliente(id["id"]); err != nil {
 		service.ReponseError(w, 400, "Erro ao deletar cadastro", err )
 		return 
