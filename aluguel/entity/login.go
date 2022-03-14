@@ -32,6 +32,12 @@ func (a *Admin) ValidaAdmin() error {
 	return nil
 }
 
+func (login *Login) validaSenha() error {
+	if login.Senha == "" {
+		return fmt.Errorf("A senha não pode estar vazia")
+	}
+	return nil
+}
 func GeraToken(dados string) (string, error) {
 	sl := sha1.Sum([]byte(dados))
 	token := fmt.Sprintf("%x", sl)

@@ -20,8 +20,8 @@ services:
      context: .
      dockerfile: mysql.Dockerfile
    container_name: mysql
-   volumes:
-     - ./mysql:/var/lib/mysql
+#   volumes:
+#     - ./mysql:/var/lib/mysql
    environment:
      #MYSQL_ROOT_PASSSWORD: "root"
      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"

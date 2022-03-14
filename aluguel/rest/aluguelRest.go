@@ -39,10 +39,7 @@ func AlugarCarro(w http.ResponseWriter, r *http.Request) {
 		service.ReponseError(w, 400, "Erro ao inserir aluguel", err)
 		return
 	}
-
-	w.WriteHeader(http.StatusOK)
-	enconder := json.NewEncoder(w)
-	enconder.Encode(aluguel)
+	service.JsonResponse(w, 200, aluguel)
 }
 
 func GetAlugueis(w http.ResponseWriter, r *http.Request) {
@@ -52,7 +49,5 @@ func GetAlugueis(w http.ResponseWriter, r *http.Request) {
 		service.ReponseError(w, 400, "Erro ao retonar alugueis", err)
 		return
 	}
-
-	encoder := json.NewEncoder(w)
-	encoder.Encode(alugado)
+	service.JsonResponse(w, 302, alugado)
 }

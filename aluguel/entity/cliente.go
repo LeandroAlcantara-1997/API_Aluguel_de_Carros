@@ -2,8 +2,6 @@ package entity
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
 	"time"
 	"unicode"
 
@@ -42,13 +40,13 @@ func (c *Cliente) ValidaCliente() error {
 		return fmt.Errorf("Data de nascimento inválida")
 	} else if c.RG == "" || validaNumber(c.RG) {
 		return fmt.Errorf("Número de RG inválido")
-	} else if c.Login.Senha == "" {
-		return fmt.Errorf("A senha não pode estar vazia")
 	} else if c.CPF == "" || len(c.CPF) != 10 {
 		return fmt.Errorf("Número de CPF inválido")
 	}
-
-	data, err := ValidaData(c.Data_Nascimento)
+	if err := c.Login.validaSenha(); err != nil {
+		return err
+	}
+	data, err := ValidaDataNascimento(c.Data_Nascimento)
 	if err != nil {
 		return fmt.Errorf("%v ", err)
 	}
@@ -101,37 +99,7 @@ func ValidaDataNascimento(date string) (string, error){
 
 	return nasc.Format("2006-01-02"), nil
 }
-func ValidaData(date string) (string, error) {
-	data := strings.Split(date, "/")
-	dia, err := strconv.Atoi(data[0])
-	if err != nil {
-		return "", fmt.Errorf("Erro ao parsear ano para int %v", err)
-	}
 
-	m, err := strconv.Atoi(data[1])
-	if err != nil {
-		return "", fmt.Errorf("Erro ao parsear mes para int %v", err)
-	}
-
-	mes, err := utils.ValidaMes(m)
-	if err != nil {
-		return "", fmt.Errorf("Error: %v", err)
-	}
-
-	ano, err := strconv.Atoi(data[2])
-	if err != nil {
-		return "", fmt.Errorf("Erro ao parsear ano para int %v", err)
-
-	}
-
-	var nasc = time.Date(ano, mes, dia, 0, 0, 0, 0, time.UTC)
-	compare := time.Now()
-	if !nasc.Before(compare) {
-		return "", fmt.Errorf("Ano de nascimento deve ser anterior a data atual")
-	}
-
-	return nasc.Format("2006-01-02"), nil
-}
 func validaNumber(number string) bool {
 	for _, value := range number {
 		if !unicode.IsDigit(value) {
@@ -140,33 +108,3 @@ func validaNumber(number string) bool {
 	}
 	return false
 }
-
-/*{
-    "id": 1,
-	"nome": "Leandro",
-	"sobrenome": "Alcantara",
-	"data_nascimento": "24/12/1991",
-	"rg": "4462546215",
-	"cpf": "456891621651",
-	"cnh": "15181516516",
-	"contato": {
-		"celular": "5151515",
-		"telefone": "518162480",
-		"email": "21484848"
-	},
-	"endereco": {
-		"estado": {
-			"nome": "são paulo",
-			"pais": "Brasil"
-		},
-		"cidade": "Taboão da Serra",
-		"bairro": "Jd.Elisabete",
-		"logradouro": "rua",
-		"rua": "Almeida filho",
-		"numero": "52",
-		"complemento": "casa 06"
-	},
-	"login": {
-		"senha": "123456"
-	}
-}*/

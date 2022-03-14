@@ -42,11 +42,7 @@ func PostCadastraCliente(w http.ResponseWriter, r *http.Request) {
 		service.ReponseError(w, 400, "Erro ao cadastrar cliente", err)
 		return
 	}
-	
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	encoder := json.NewEncoder(w)
-	encoder.Encode(novocadastro)
+	service.JsonResponse(w, 201, novocadastro)
 }
 
 func DeletaCadastro(w http.ResponseWriter, r *http.Request) {
@@ -93,10 +89,7 @@ func PostRestauraSenha(w http.ResponseWriter, r *http.Request) {
 		service.ReponseError(w, 400, "Erro ao recuperar senha", err )
 		return
 	}
-
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprint(w, "Enviado com sucesso")
-
+	service.JsonResponse(w, 200, "Enviado com sucesso")
 }
 
 func GetCarrosAlugados(w http.ResponseWriter, r *http.Request) {

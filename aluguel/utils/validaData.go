@@ -8,7 +8,7 @@ import (
 )
 
 func ValidaData(date string) (time.Time, error) {
-	if len(date) != 8 {
+	if len(date) != 10 {
 		return time.Time{},  fmt.Errorf("Data com formato incorreto")
 	}
 	
@@ -36,7 +36,6 @@ func ValidaData(date string) (time.Time, error) {
 
 	var data = time.Date(ano, mes, dia, 0, 0, 0, 0, time.UTC)
 
-	
 	return data, nil
 }
 

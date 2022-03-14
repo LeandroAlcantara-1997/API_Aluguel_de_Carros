@@ -2,7 +2,6 @@ package rest
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -39,9 +38,7 @@ func GetClienteById(w http.ResponseWriter, r *http.Request) {
 		service.ReponseError(w, 400, "Erro ao consultar cliente", err)
 		return
 	}
-	w.WriteHeader(http.StatusFound)
-	encoder := json.NewEncoder(w)
-	encoder.Encode(cliente)
+	service.JsonResponse(w, 302, cliente)
 }
 
 func GetClientesCadastrados(w http.ResponseWriter, r *http.Request) {
@@ -51,10 +48,7 @@ func GetClientesCadastrados(w http.ResponseWriter, r *http.Request) {
 		service.ReponseError(w, 400, "Erro ao retornar cliente", err)
 		return
 	}
-
-	w.WriteHeader(http.StatusFound)
-	encoder := json.NewEncoder(w)
-	encoder.Encode(clientes)
+	service.JsonResponse(w, 302, clientes)
 }
 
 func CadastraCarro(w http.ResponseWriter, r *http.Request) {
@@ -62,18 +56,17 @@ func CadastraCarro(w http.ResponseWriter, r *http.Request) {
 	var veiculo entity.Veiculo
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		w.Write([]byte("Erro ao ler body"))
+		service.ReponseError(w, 400, "Erro ao ler body", err)
 		return
 	}
-	
+
 	if err = json.Unmarshal(body, &veiculo); err != nil {
-		w.Write([]byte("Erro ao realizar unmarshal"))
+		service.ReponseError(w, 400, "Erro ao realizar unmarshal", err)
 		return
 	}
 
 	if err = veiculo.ValidaVeiculo(); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, err)
+		service.ReponseError(w, 400, "Erro ao realizar unmarshal", err)
 		return
 	}
 
@@ -81,10 +74,7 @@ func CadastraCarro(w http.ResponseWriter, r *http.Request) {
 		service.ReponseError(w, 400, "Erro ao inserir veiculo", err)
 		return
 	}
-
-	w.WriteHeader(http.StatusAccepted)
-	encoder := json.NewEncoder(w)
-	encoder.Encode(veiculo)
+	service.JsonResponse(w, 201, veiculo)
 }
 
 func GetCarrosCadastrados(w http.ResponseWriter, r *http.Request) {
@@ -94,8 +84,5 @@ func GetCarrosCadastrados(w http.ResponseWriter, r *http.Request) {
 		service.ReponseError(w, 400, "Erro ao retonar carros", err)
 		return
 	}
-
-	w.WriteHeader(http.StatusFound)
-	encoder := json.NewEncoder(w)
-	encoder.Encode(veiculos)
+	service.JsonResponse(w, 302, veiculos)
 }

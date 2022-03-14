@@ -18,7 +18,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Serivdor rodando porta 8080")
+	fmt.Println("Serivdor rodando porta 8081")
 	err = http.ListenAndServe(":8080", r)
 	if err != nil {
 		log.Fatal("Erro ao rodar servidor ", err)
