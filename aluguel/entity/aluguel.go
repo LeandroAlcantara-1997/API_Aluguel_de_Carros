@@ -27,11 +27,8 @@ func (aluguel *Aluguel) CalculaTotal(veiculo Veiculo) error {
 		return err
 	}
 	totalDia := retorno.Day() - inicio.Day()
-	fmt.Println(totalDia)
 	total := veiculo.Valor_Dia * float64(totalDia)
-	fmt.Println(total)
 	aluguel.Valor_Total = total
-	fmt.Println(total)
 
 	return nil
 }

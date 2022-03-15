@@ -46,7 +46,6 @@ func GetEmailToSenha(email string) error {
 
 	rows := db.QueryRow("SELECT email FROM login " +
 		"WHERE email='" + email + "';")
-	fmt.Print(rows)
 	err = rows.Scan(&log.Email)
 	if err != nil {
 		return fmt.Errorf("Email não cadastrado %#v", err)

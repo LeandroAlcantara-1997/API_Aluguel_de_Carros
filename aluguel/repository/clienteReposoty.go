@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/LeandroAlcantara-1997/entity"
 )
@@ -84,7 +85,7 @@ func GetClientesCadastrados() ([]entity.Cliente, error) {
 	return clientes, nil
 }
 
-func GetByIdCliente(id string) (entity.Cliente, error) {
+func GetClienteById(id string) (entity.Cliente, error) {
 	var cliente entity.Cliente
 
 	db, err := OpenSQL()
@@ -99,10 +100,25 @@ func GetByIdCliente(id string) (entity.Cliente, error) {
 		return cliente, fmt.Errorf("Erro ao pegar dados do cliente")
 	}
 
+	cliente.Endereco, err = GetEnderecoById(id)
+	if err != nil {
+		return cliente, err
+	}
+
+	cliente.Endereco.Estado, err = GetEstadoById(strconv.Itoa(cliente.Endereco.Estado.Id))
+	if err != nil {
+		return cliente, err
+	}
+
+	cliente.Contato, err = GetContatoById(strconv.FormatInt(cliente.Id, 10))
+	if err != nil {
+		return cliente, err
+	}
+
 	return cliente, nil
 }
 
-func DeletaCliente(id string) (error) {
+func DeletaCliente(id string) error {
 	if err := DeleteAluguel(id); err != nil {
 		return err
 	}
@@ -124,8 +140,8 @@ func DeletaCliente(id string) (error) {
 		return fmt.Errorf("%v", err)
 	}
 
-	_ , err = db.Exec("DELETE FROM cliente " +
-	"WHERE id = '" + id + "';")
+	_, err = db.Exec("DELETE FROM cliente " +
+		"WHERE id = '" + id + "';")
 	if err != nil {
 		return fmt.Errorf("Erro ao deletar cadastro %#v", err)
 	}

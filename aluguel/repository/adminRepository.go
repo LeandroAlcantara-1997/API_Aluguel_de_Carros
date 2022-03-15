@@ -45,8 +45,6 @@ func LogarAdmin(admin *entity.Admin) error {
 		return fmt.Errorf("Erro open sql %#v", err)
 	}
 
-	fmt.Println(admin.Token)
-
 	rows := db.QueryRow("SELECT token FROM admin " +
 		"WHERE token = '" + admin.Token + "';")
 

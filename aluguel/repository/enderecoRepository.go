@@ -33,16 +33,14 @@ func InsertEndereco(c *entity.Cliente) error {
 	if err != nil {
 		log.Fatal(err)
 	}
-	idEstado, err := entity.ValidaEstado(c.Endereco.Estado.Nome)
+	c.Endereco.Estado.Id, err = entity.ValidaEstado(c.Endereco.Estado.Nome)
 	if err != nil {
 		return fmt.Errorf("%v", err)
 	}
-	result, err := db.Exec("INSERT INTO endereco (fk_estado, cidade, bairro, logradouro, rua, numero, complemento, fk_cliente) VALUES ('" + fmt.Sprint(idEstado) + "', '" + c.Endereco.Cidade + "', '" + c.Endereco.Bairro + "', '" + c.Endereco.Logradouro + "', '" + c.Endereco.Rua + "', '" + c.Endereco.Numero + "', '" + c.Endereco.Complemento + "', '" + fmt.Sprint(c.Id) + "');")
+	_, err = db.Exec("INSERT INTO endereco (fk_estado, cidade, bairro, logradouro, rua, numero, complemento, fk_cliente) VALUES ('" + fmt.Sprint(c.Endereco.Estado.Id) + "', '" + c.Endereco.Cidade + "', '" + c.Endereco.Bairro + "', '" + c.Endereco.Logradouro + "', '" + c.Endereco.Rua + "', '" + c.Endereco.Numero + "', '" + c.Endereco.Complemento + "', '" + fmt.Sprint(c.Id) + "');")
 	if err != nil {
 		return fmt.Errorf("Error ao fazer insert endereco %v", err)
 	}
-
-	c.Endereco.Id, err = result.LastInsertId()
 
 	err = InsertEstado(&c.Endereco)
 	if err != nil {
@@ -57,11 +55,28 @@ func DeleteEndereco(id string) error {
 		return err
 	}
 
-	_ , err = db.Exec("DELETE FROM endereco " + 
-	"WHERE fk_cliente = '" + id + "';")
+	_, err = db.Exec("DELETE FROM endereco " +
+		"WHERE fk_cliente = '" + id + "';")
 	if err != nil {
 		return fmt.Errorf("Erro ao deletar endereco %#v", err)
 	}
 
 	return nil
+}
+
+func GetEnderecoById(id string) (entity.Endereco, error) {
+	var endereco entity.Endereco
+
+	db, err := OpenSQL()
+	if err != nil {
+		return endereco, fmt.Errorf("%v", err)
+	}
+	rows := db.QueryRow("SELECT id, fk_estado, cidade, bairro, logradouro, rua, numero, complemento FROM endereco " + "WHERE fk_cliente= " + id + ";")
+
+	err = rows.Scan(&endereco.Id, &endereco.Estado.Id, &endereco.Cidade, &endereco.Bairro, &endereco.Logradouro, &endereco.Rua, &endereco.Numero, &endereco.Complemento)
+	if err != nil {
+		return endereco, fmt.Errorf("Erro ao pegar dados do endereco %#v", err)
+	}
+
+	return endereco, nil
 }

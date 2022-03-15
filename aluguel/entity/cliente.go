@@ -10,7 +10,7 @@ import (
 )
 
 type Cliente struct {
-	Id              int64    `json:"id"`
+	Id              int64   `json:"id"`
 	Nome            string   `json:"nome"`
 	Sobrenome       string   `json:"sobrenome"`
 	Data_Nascimento string   `json:"data_nascimento"`
@@ -19,11 +19,11 @@ type Cliente struct {
 	CNH             string   `json:"cnh"`
 	Contato         Contato  `json:"contato"`
 	Endereco        Endereco `json:"endereco"`
-	Login           Login    `json:"login"`
+	Login           Login    `json:"login,omitempty"`
 }
 
 type Contato struct {
-	id       int
+	Id       int	`json:"-"`
 	Celular  string `json:"celular"`
 	Telefone string `json:"telefone"`
 	Email    string `json:"email"`

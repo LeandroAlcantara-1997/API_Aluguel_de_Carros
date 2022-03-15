@@ -12,8 +12,13 @@ import (
 func main() {
 	r := routes.NewRouter()
 
+	//Apaga as tabelas se existirem
+	err := repository.DropTables()
+	if err != nil {
+		log.Fatal(err)
+	}
 	//Cria as tabelas assim que o programa é executado
-	err := repository.CreateTables()
+	err = repository.CreateTables()
 	if err != nil {
 		log.Fatal(err)
 	}

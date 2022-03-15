@@ -49,7 +49,6 @@ func GetCarrosCadastrados() ([]entity.Veiculo, error) {
 	if veiculos == nil {
 		return nil, fmt.Errorf("Nenhum veiculo encontrado")
 	}
-	fmt.Println(veiculos)
 	return veiculos, nil
 }
 

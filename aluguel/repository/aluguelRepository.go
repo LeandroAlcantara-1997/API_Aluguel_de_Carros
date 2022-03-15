@@ -47,41 +47,10 @@ func GetAlugueis() ([]entity.Aluguel, error) {
 	if alugueis == nil {
 		return nil, fmt.Errorf("Nenhum veiculo aluguel encontrado")
 	}
-	fmt.Println(alugueis)
 
 	return alugueis, nil
 }
 
-func GetAlugueisCliente() ([]entity.Veiculo, error) {
-	var veiculo entity.Veiculo
-	var veiculos []entity.Veiculo
-	db, err := OpenSQL()
-	if err != nil {
-		return nil, fmt.Errorf("%#v", err)
-	}
-
-	rows, err := db.Query("SELECT * FROM veiculo " +
-		"INNER JOIN aluguel " +
-		"ON veiculo.id = aluguel.fk_veiculo;")
-	if err != nil {
-		return nil, fmt.Errorf("Erro ao executar select para a tabela alugueis %#v", err)
-	}
-
-	for rows.Next() {
-		err = rows.Scan(&veiculo.Modelo, &veiculo.Marca, &veiculo.Ano, &veiculo.Cor, &veiculo.Id, &veiculo.Valor_Dia, &veiculo.Valor_Hora)
-		if err != nil {
-			return nil, fmt.Errorf("Erro ao atribuir valores a struct veiculo")
-		}
-		veiculos = append(veiculos, veiculo)
-	}
-
-	if veiculos == nil {
-		return nil, fmt.Errorf("Nenhum veiculo aluguel encontrado")
-	}
-	fmt.Println(veiculos)
-
-	return veiculos, nil
-}
 
 func InsertAluguel(aluguel entity.Aluguel) error {
 	db, err := OpenSQL()
@@ -111,4 +80,31 @@ func DeleteAluguel(id string) error {
 	}
 
 	return nil
+}
+
+func GetAlugadosCliente(id string) ([]entity.Veiculo, error) {
+	var veiculo entity.Veiculo
+	var veiculos []entity.Veiculo
+	db, err := OpenSQL()
+	if err != nil {
+		return veiculos, err
+	}
+	rows, err := db.Query("SELECT id, modelo, marca, ano, cor, km_litro, valor_dia, valor_hora FROM veiculo " +
+		"INNER JOIN aluguel " +
+		"ON veiculo.id=aluguel.fk_veiculo AND aluguel.fk_cliente=" + id + ";")
+
+	for rows.Next() {
+		err = rows.Scan(&veiculo.Id, &veiculo.Modelo, &veiculo.Marca,
+			&veiculo.Ano, &veiculo.Cor, &veiculo.Km_Litro, &veiculo.Valor_Dia, &veiculo.Valor_Hora)
+		if err != nil {
+			return veiculos, fmt.Errorf("Erro ao pegar dados do cliente")
+		}
+		veiculos = append(veiculos, veiculo)
+	}
+
+	if veiculos == nil {
+		return veiculos, fmt.Errorf("Nenhum veiculo encotrado")
+	}
+
+	return veiculos, nil
 }

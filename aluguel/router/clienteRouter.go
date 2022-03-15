@@ -15,4 +15,5 @@ func RouterCliente(r *mux.Router) {
 
 	r.HandleFunc("/cliente/getclientebyid/{id}", rest.GetClienteById).Methods("GET")
 	r.HandleFunc("/cliente/getclientes", rest.GetClientesCadastrados).Methods("GET")
+	r.HandleFunc("/cliente/alugados/{id}", rest.GetCarrosAlugados).Methods("GET")
 }

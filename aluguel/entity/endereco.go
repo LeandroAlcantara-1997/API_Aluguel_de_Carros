@@ -14,7 +14,7 @@ type Endereco struct {
 }
 
 type Estado struct {
-	Id   int64  `json:"-"`
+	Id   int  `json:"-"`
 	Nome string `json:"nome"`
 	Pais string `json:"pais"` //BRASIL
 }

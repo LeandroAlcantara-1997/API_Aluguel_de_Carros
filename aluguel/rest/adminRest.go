@@ -30,10 +30,9 @@ func PostLoginAdmin(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetClienteById(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	id := mux.Vars(r)
 
-	cliente, err := repository.GetByIdCliente(id["id"])
+	cliente, err := repository.GetClienteById(id["id"])
 	if err != nil {
 		service.ReponseError(w, 400, "Erro ao consultar cliente", err)
 		return
@@ -42,7 +41,6 @@ func GetClienteById(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetClientesCadastrados(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	clientes, err := repository.GetClientesCadastrados()
 	if err != nil {
 		service.ReponseError(w, 400, "Erro ao retornar cliente", err)
@@ -52,7 +50,6 @@ func GetClientesCadastrados(w http.ResponseWriter, r *http.Request) {
 }
 
 func CadastraCarro(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	var veiculo entity.Veiculo
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -78,7 +75,6 @@ func CadastraCarro(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetCarrosCadastrados(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	veiculos, err := repository.GetCarrosCadastrados()
 	if err != nil {
 		service.ReponseError(w, 400, "Erro ao retonar carros", err)

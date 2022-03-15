@@ -48,3 +48,17 @@ func DeleteContato(id string) error {
 
 	return nil
 }
+
+func GetContatoById(id string) (entity.Contato, error) {
+	var contato entity.Contato
+	db, err := OpenSQL()
+	if err != nil {
+		return contato, fmt.Errorf("%v", err)
+	}
+	rows := db.QueryRow("SELECT id, celular, telefone, email FROM contato " + "WHERE fk_cliente= " + id + ";")
+	err = rows.Scan(&contato.Id, &contato.Celular, &contato.Telefone, &contato.Email)
+	if err != nil {
+		return contato, fmt.Errorf("Erro ao pegar dados do contato %#v", err)
+	}
+	return contato, nil
+}
