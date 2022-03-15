@@ -1,7 +1,7 @@
 # API de Aluguel de Carros
 
 
-Essa API tem a finalidade de 
+Essa API tem a finalidade de simular um sistema de aluguel de veiculos. 
 
 ## Tecnologias utilizadas:
 

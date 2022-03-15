@@ -56,13 +56,12 @@ func (c *Cliente) ValidaCliente() error {
 		return fmt.Errorf(" %v", err)
 	}
 	c.Login.Email = c.Contato.Email
-	passbyte, err := GeraToken(c.Login.Email + c.Login.Senha)
 
+	c.Login.Token, err = GeraToken(c.Login.Senha)
 	if err != nil {
 		return fmt.Errorf("Erro ao cadastrar token")
 	}
-	c.Login.Token = string(passbyte)
-
+	
 	return nil
 }
 

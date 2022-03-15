@@ -10,5 +10,5 @@ func RouterVeiculo(r *mux.Router) {
 	
 	r.HandleFunc("/veiculo/cadastrados", rest.GetCarrosCadastrados).Methods("GET")
 	r.HandleFunc("/veiculo/cadastro", rest.CadastraCarro).Methods("POST")
-	//r.HandleFunc("veiculo/disponiveis", rest.CarrosDisponiveis)
+	r.HandleFunc("/veiculo/disponiveis", rest.CarrosDisponiveis).Methods("GET")
 }

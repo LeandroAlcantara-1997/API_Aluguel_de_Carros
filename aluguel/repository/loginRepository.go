@@ -54,7 +54,7 @@ func GetEmailToSenha(email string) error {
 	return nil
 }
 
-func Logar(email, senha string) error {
+func Logar(email, token string) error {
 	var log entity.Login
 
 	db, err := OpenSQL()
@@ -62,15 +62,11 @@ func Logar(email, senha string) error {
 		return fmt.Errorf("%v", err)
 	}
 
-	token, err := entity.GeraToken(email + senha)
-	if err != nil {
-		return fmt.Errorf("%#v", err)
-	}
 	rows := db.QueryRow("SELECT token FROM login " +
-		"WHERE token='" + token + "';")
+		"WHERE email='" + email + "';")
 
-	err = rows.Scan(&log.Token)
-	if err != nil {
+	
+	if err = rows.Scan(&log.Token); err != nil {
 		return fmt.Errorf("Acesso negado")
 	}
 

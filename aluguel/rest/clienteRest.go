@@ -55,7 +55,13 @@ func PostLoginCliente(w http.ResponseWriter, r *http.Request) {
 	email := r.FormValue("email")
 	senha := r.FormValue("senha")
 
-	if err := repository.Logar(email, senha); err != nil {
+	senha, err := entity.GeraToken(senha)
+	if err != nil {
+		service.ReponseError(w, 400, "Erro ao gerar token", err)
+		return
+	}
+	
+	if err = repository.Logar(email, senha); err != nil {
 		service.ReponseError(w, 401, "Login inválido", err)
 		return
 	}

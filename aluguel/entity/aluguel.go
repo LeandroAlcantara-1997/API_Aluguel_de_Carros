@@ -10,8 +10,8 @@ import (
 )
 
 type Aluguel struct {
-	Id_Cliente  int64  `json:"cliente"`
-	Id_Veiculo  int64  `json:"veiculo"`
+	Id_Cliente  int  `json:"cliente,omitempty"`
+	Id_Veiculo  int  `json:"veiculo,omitempty"`
 	Inicio      string `json:"inicio"`
 	Retorno     string `json:"retorno"`
 	Valor_Total float64

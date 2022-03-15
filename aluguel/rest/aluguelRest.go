@@ -4,18 +4,31 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 
-	service "github.com/LeandroAlcantara-1997/service"
 	"github.com/LeandroAlcantara-1997/entity"
 	"github.com/LeandroAlcantara-1997/repository"
+	service "github.com/LeandroAlcantara-1997/service"
+	"github.com/gorilla/mux"
 )
 
 func AlugarCarro(w http.ResponseWriter, r *http.Request) {
 	var aluguel entity.Aluguel
+	ids :=mux.Vars(r)
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		service.ReponseError(w, 400, "Erro ao ler body ", err)
 		return
+	}
+
+	aluguel.Id_Cliente, err = strconv.Atoi(ids["cliente"])
+	if err != nil {
+		service.ReponseError(w, 400, "Erro ao inserir cadastro", err)
+	}
+
+	aluguel.Id_Veiculo, err = strconv.Atoi(ids["veiculo"])
+	if err != nil {
+		service.ReponseError(w, 400, "Erro ao inserir cadastro", err)
 	}
 
 	if err = json.Unmarshal(body, &aluguel); err != nil {
@@ -49,4 +62,15 @@ func GetAlugueis(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	service.JsonResponse(w, 302, alugado)
+}
+
+func CarrosDisponiveis(w http.ResponseWriter, r *http.Request) {
+	var veiculos []entity.Veiculo
+
+	veiculos, err := repository.GetCarrosDisponiveis()
+	if err != nil {
+		service.ReponseError(w, 400, "Erro ao retornar veiculos", err)
+		return 
+	}
+	service.JsonResponse(w, 302, veiculos)
 }

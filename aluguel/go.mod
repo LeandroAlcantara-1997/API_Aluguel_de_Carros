@@ -8,6 +8,8 @@ require (
 	gopkg.in/mail.v2 v2.3.1
 )
 
+require golang.org/x/crypto v0.0.0-20220314234724-5d542ad81a58
+
 require github.com/gorilla/securecookie v1.1.1 // indirect
 
 require (

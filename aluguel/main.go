@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	routes "github.com/LeandroAlcantara-1997/router"
 	"github.com/LeandroAlcantara-1997/repository"
+	routes "github.com/LeandroAlcantara-1997/router"
 )
 
 func main() {
@@ -33,7 +33,7 @@ func main() {
 
 func soma(i ...int) int {
 	var total int
-	for _, v := range  i {
+	for _, v := range i {
 		total += v
 	}
 	return total
