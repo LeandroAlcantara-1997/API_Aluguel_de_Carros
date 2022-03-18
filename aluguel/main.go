@@ -17,6 +17,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	
 	//Cria as tabelas assim que o programa é executado
 	err = repository.CreateTables()
 	if err != nil {

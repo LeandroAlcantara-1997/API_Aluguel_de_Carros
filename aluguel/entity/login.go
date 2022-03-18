@@ -3,13 +3,12 @@ package entity
 import (
 	"crypto/sha1"
 	"fmt"
-	
 )
 
 type Admin struct {
+	Id    int64  `json:"id"`
 	User  string `json:"-"`
-	Senha string `json:"senha"`
-	Token string `json:"-"`
+	Senha string `json:"-"`
 }
 
 type Login struct {
@@ -25,7 +24,7 @@ func (a *Admin) ValidaAdmin() error {
 		return fmt.Errorf("Senha do admin inválida")
 	}
 	token, err := GeraToken(a.User + a.Senha)
-	a.Token = string(token)
+	a.Senha = string(token)
 	if err != nil {
 		return fmt.Errorf("Erro ao criar token admin %#v", err)
 	}

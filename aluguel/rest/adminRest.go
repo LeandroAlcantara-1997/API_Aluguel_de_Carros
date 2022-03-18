@@ -25,8 +25,18 @@ func PostLoginAdmin(w http.ResponseWriter, r *http.Request) {
 		service.ReponseError(w, 400, "Erro ao validar admin", err)
 		return
 	}
+	id, err := repository.GetIdAdminByUser(admin.User)
+	if err != nil {
+		service.ReponseError(w, 400, "Erro ao logar admin", err)
+		return
+	}
 
-	w.WriteHeader(http.StatusAccepted)
+	token, err := service.JWTToken(id, true)
+	if err != nil {
+		service.ReponseError(w, 400, "Erro ao gerar token", err)
+		return 
+	}
+	service.JsonResponse(w, 202, token)
 }
 
 func GetClienteById(w http.ResponseWriter, r *http.Request) {

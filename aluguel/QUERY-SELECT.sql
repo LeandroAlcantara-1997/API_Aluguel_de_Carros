@@ -1,7 +1,6 @@
 USE aluguel_veiculo;
 
-SELECT token FROM login
-WHERE email = 'joao1980@gmail.com'
+SELECT * FROM admin;
 SELECT * FROM veiculo;
 SELECT * FROM login;
 SELECT * FROM aluguel;

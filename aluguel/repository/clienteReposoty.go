@@ -118,6 +118,25 @@ func GetClienteById(id string) (entity.Cliente, error) {
 	return cliente, nil
 }
 
+
+func GetIdClienteByEmail(email string) (int64, error) {
+	var fk_cliente int64
+
+	db, err := OpenSQL()
+	if err != nil {
+		return 0, fmt.Errorf("%v", err)
+	}
+
+	rows := db.QueryRow("SELECT fk_cliente FROM login " + "WHERE email= '" + email  + "';")
+
+	err = rows.Scan(&fk_cliente)
+	if err != nil {
+		return 0, fmt.Errorf("Erro ao pegar dados do cliente %#v", err)
+	}
+
+	return fk_cliente, nil
+}
+
 func DeletaCliente(id string) error {
 	if err := DeleteAluguel(id); err != nil {
 		return err

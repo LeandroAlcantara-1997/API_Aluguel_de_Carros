@@ -66,11 +66,23 @@ func PostLoginCliente(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := service.GeraCookie(r, w, email); err != nil {
+	if err = service.GeraCookie(r, w, email); err != nil {
 		service.ReponseError(w, 400, "Erro ao gerar cookie", err)
 		return
 	}
-	w.WriteHeader(http.StatusAccepted)
+
+	cliente_id, err := repository.GetIdClienteByEmail(email)
+	if err != nil {
+		service.ReponseError(w, 400, "Erro ao logar", err)
+		return
+	}
+	token, err := service.JWTToken(cliente_id, false)
+	if err != nil {
+		service.ReponseError(w, 400, "Erro ao gerar token", err)
+		return 
+	}
+
+	service.JsonResponse(w, 202, token)
 	return
 }
 
