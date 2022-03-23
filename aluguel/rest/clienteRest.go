@@ -76,6 +76,7 @@ func PostLoginCliente(w http.ResponseWriter, r *http.Request) {
 		service.ReponseError(w, 400, "Erro ao logar", err)
 		return
 	}
+
 	token, err := service.JWTToken(cliente_id, false)
 	if err != nil {
 		service.ReponseError(w, 400, "Erro ao gerar token", err)

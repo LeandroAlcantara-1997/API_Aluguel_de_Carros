@@ -11,7 +11,6 @@ import (
 
 func main() {
 	r := routes.NewRouter()
-
 	//Apaga as tabelas se existirem
 	err := repository.DropTables()
 	if err != nil {

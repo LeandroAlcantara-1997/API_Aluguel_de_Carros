@@ -13,12 +13,10 @@ services:
       - "8081:8080"
     depends_on:
       - mysql-db
-#    command: go run main.go
+    command: go run main.go
   mysql-db:
+   image: mysql:5.7
    restart: always
-   build: 
-     context: .
-     dockerfile: mysql.Dockerfile
    container_name: mysql
 #   volumes:
 #     - ./mysql:/var/lib/mysql

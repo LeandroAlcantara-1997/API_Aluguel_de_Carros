@@ -5,31 +5,66 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/go-redis/redis/v7"
+)
 
-func ValidateToken(token string) bool {
-	_, err := jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
-		if _, isValid := t.Method.(*jwt.SigningMethodHMAC); !isValid {
-			return nil, fmt.Errorf("Invalid token: %v", t.Header["alg"])
-		}
-		return []byte("ACCESS_SECRET"), nil
-	})
+var redi *redis.Client
 
-	return err == nil
+type Claims struct {
+	Authorized bool
+	Id         int64
+	Admin      bool
+	jwt.StandardClaims
 }
 
 func JWTToken(id int64, admin bool) (string, error) {
-	atClaims := jwt.MapClaims{}
-	atClaims["authorized"] = true
-	atClaims["id"] = id
-	atClaims["admin"] = admin
-	atClaims["exp"] = time.Now().Add(time.Minute * 15).Unix()
-	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
+	claims := &Claims{
+		Authorized: true,
+		Id:         id,
+		Admin:      admin,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Minute * 15).Unix(),
+		},
+	}
+
+	at := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	token, err := at.SignedString([]byte("ACCESS_SECRET"))
 	if err != nil {
 		return "", err
 	}
 
-	fmt.Println(atClaims["admin"])
+	fmt.Println(claims.Admin)
 
 	return token, nil
+}
+
+func ValidateToken(token string) error {
+	claims := &Claims{}
+	tkn, err := jwt.ParseWithClaims(token, claims,
+		func(t *jwt.Token) (interface{}, error) {
+			return []byte("ACCESS_SECRET"), nil 
+		})
+		fmt.Println("Em baixo do claims")
+		if err != nil {
+			if err == jwt.ErrSignatureInvalid {
+				return err
+			}
+			return err
+		}
+
+	if !tkn.Valid {
+		return fmt.Errorf("Token inválido %v", err)
+	}
+	return nil
+}
+
+func initRedis() {
+	redi = redis.NewClient(&redis.Options{
+		Addr: "redis:6379",
+	})
+
+	_, err := redi.Ping().Result()
+	if err != nil {
+		panic(err)
+	}
 }

@@ -10,7 +10,10 @@ require (
 
 require github.com/dgrijalva/jwt-go v3.2.0+incompatible
 
-require github.com/gorilla/securecookie v1.1.1 // indirect
+require (
+	github.com/go-redis/redis/v7 v7.4.1 // indirect
+	github.com/gorilla/securecookie v1.1.1 // indirect
+)
 
 require (
 	github.com/gorilla/sessions v1.2.1
