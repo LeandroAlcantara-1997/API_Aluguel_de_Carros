@@ -1,4 +1,4 @@
 FROM golang:1.17
 WORKDIR /go/src
 ADD ./aluguel /go/src/
-#CMD [ "tail", "-f", "/dev/null" ]
+CMD [ "tail", "-f", "/dev/null" ]

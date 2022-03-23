@@ -33,30 +33,54 @@ func JWTToken(id int64, admin bool) (string, error) {
 		return "", err
 	}
 
-	fmt.Println(claims.Admin)
-
 	return token, nil
 }
 
-func ValidateToken(token string) error {
+func ValidaCliente(token string) error{
+	claim, err := validateToken(token)
+	if err != nil {
+		return err
+	}
+
+	if claim.Admin {
+		return fmt.Errorf("Só clientes podem acessar essa rota")
+	}
+
+	return nil
+}
+
+func ValidaAdmin(token string) error {
+	claim, err := validateToken(token)
+	if err != nil {
+		return err
+	}
+
+	if !claim.Admin {
+		return fmt.Errorf("Só admins podem acessar essa rota")
+	}
+
+	return nil
+}
+
+func validateToken(token string) (*Claims, error) {
 	claims := &Claims{}
 	tkn, err := jwt.ParseWithClaims(token, claims,
 		func(t *jwt.Token) (interface{}, error) {
 			return []byte("ACCESS_SECRET"), nil 
 		})
-		fmt.Println("Em baixo do claims")
 		if err != nil {
 			if err == jwt.ErrSignatureInvalid {
-				return err
+				return claims, err
 			}
-			return err
+			return claims, err
 		}
 
 	if !tkn.Valid {
-		return fmt.Errorf("Token inválido %v", err)
+		return claims, fmt.Errorf("Token inválido %v", err)
 	}
-	return nil
+	return claims, nil
 }
+
 
 func initRedis() {
 	redi = redis.NewClient(&redis.Options{

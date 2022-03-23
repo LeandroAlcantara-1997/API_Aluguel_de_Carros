@@ -8,6 +8,6 @@ import (
 
 //Aluguel
 func RouterAluguel(r *mux.Router){
-	r.HandleFunc("/aluguel/alugados", rest.GetAlugueis).Methods("GET")
+	r.HandleFunc("/aluguel/alugados", service.MiddlewareAdmin(rest.GetAlugueis)).Methods("GET")
 	r.HandleFunc("/aluguel/alugar/{cliente}/{veiculo}", service.MiddlewareCliente(rest.AlugarCarro)).Methods("POST")     
 }
